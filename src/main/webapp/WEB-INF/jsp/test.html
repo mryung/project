@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>测试</title>
+<!-- google 图片解析 -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="${assets}/materialize/css/materialize.min.css"
+	media="screen,projection" />
+<link href="${assets}/css/font-awesome.css" rel="stylesheet" />
+<link href="${css}/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans'
+	rel='stylesheet' type='text/css' />
+</head>
+<body>
+	<div class="container-fluid">
+		<nav class="navbar navbar-default top-navbar" role="navigation" style="margin-bottom: 0px;padding-bottom: 0px">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle waves-effect waves-dark"
+					data-toggle="collapse" data-target=".sidebar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand waves-effect waves-dark" href="test"><i
+					class="large material-icons">insert_chart</i> <strong>后台管理</strong></a>
+
+				<div id="sideNav" href="">
+					<i class="material-icons dp48">toc</i>
+				</div>
+
+			</div>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li><a class="dropdown-button waves-effect waves-dark"
+					href="#!" data-activates="dropdown4"><i
+						class="fa fa-envelope fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				<li><a class="dropdown-button waves-effect waves-dark"
+					href="#!" data-activates="dropdown3"><i
+						class="fa fa-tasks fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				<li><a class="dropdown-button waves-effect waves-dark"
+					href="#!" data-activates="dropdown2"><i
+						class="fa fa-bell fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				<li><a class="dropdown-button waves-effect waves-dark"
+					href="#!" data-activates="dropdown1"><i
+						class="fa fa-user fa-fw"></i> <b>John Doe</b> <i
+						class="material-icons right">arrow_drop_down</i></a></li>
+			</ul>
+		</nav>
+		<ul id="dropdown1" class="dropdown-content">
+			<li><a href="#"><i class="fa fa-user fa-fw"></i>我的信息</a></li>
+			<li><a href="#"><i class="fa fa-gear fa-fw"></i>修改密码</a></li>
+			<li><a href="#"><i class="fa fa-sign-out fa-fw"></i>退出</a></li>
+		</ul>
+		<div class="row" style="overflow-x:hidden;overflow-y:auto;margin: 0px;padding: 0px;">
+			<div id="tree" style="width: 19.5%;background-color:red;float: left;overflow-y:auto;height: 1200px;overflow-x:auto"></div>
+			<div id="tree1" style="width: 80.5%;background-color:rgb(255,0,255);float: left;">
+				<iframe id="iframe" style="width:100%;height: 1200px;margin: 0;padding: 0;overflow-x:hidden;" src="http://www.cnblogs.com/mfc-itblog/p/5233453.html"></iframe>
+			</div>
+		</div>
+	</div>
+</body>
+<!-- jQuery Js -->
+<script src="${assets}/js/jquery-1.10.2.js"></script>
+
+<!-- Bootstrap Js -->
+<script src="${assets}/js/bootstrap.min.js"></script>
+
+<script src="${assets}/materialize/js/materialize.min.js"></script>
+<script type="text/javascript" src="${js}/bootstrap-treeview.js"></script>
+<script type="text/javascript">
+	var data = [ {
+		text : "Parent 1",
+		nodes : [ {
+			text : "Child 1",
+			href:"http://www.baidu.com",
+			nodes : [ {
+				text : "Grandchild 1",
+				
+				 state: {
+					    checked: true,
+					    disabled: false,
+					    expanded: true,
+					    selected: true
+					  },
+			}, {
+				text : "Grandchild 2"
+			},{
+				text : "Grandchild 1"
+			}, {
+				text : "Grandchild 2"
+			},{
+				text : "Grandchild 1"
+			}, {
+				text : "Grandchild 2"
+			} ,{
+				text : "Grandchild 1"
+			}, {
+				text : "Grandchild 2"
+			} ,{
+				text : "Grandchild 1"
+			}, {
+				text : "Grandchild 2"
+			} ]
+		}, {
+			text : "Child 2"
+		} ]
+	}, {
+		text : "Parent 2"
+	}, {
+		text : "Parent 3"
+	}, {
+		text : "Parent 4"
+	}, {
+		text : "Parent 5"
+	} ];
+	function getTree() {
+		// Some logic to retrieve, or generate tree structure
+		return data;
+	}
+	var iframe = $("#iframe");
+	$('#tree').treeview({
+		color: "#428bca",
+        expandIcon: 'glyphicon glyphicon-chevron-right',
+        collapseIcon: 'glyphicon glyphicon-chevron-down',
+        nodeIcon: "glyphicon glyphicon-user",
+        color: "white",
+        backColor: "#2c445a",
+        onhoverColor: "#30cc7b",
+        borderColor: "red",
+        showBorder: false,
+        showTags: true,
+        highlightSelected: true,
+        selectedColor: "yellow",
+        selectedBackColor: "darkorange",
+        onNodeSelected: function(event,data){
+        	if(data.href != '' || data.href != null){
+        		$("#iframe").attr("src",data.href);
+        		//document.getElementById("iframe").src = data.href;	
+        	 	//event.stopPropagation();
+        	}
+        },
+		data : getTree()
+	}); 
+</script>
+</html>

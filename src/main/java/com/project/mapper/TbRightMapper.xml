@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.TbRightMapper" >
+  <resultMap id="BaseResultMap" type="com.project.entity.TbRight" >
+    <id column="right_id" property="rightId" jdbcType="INTEGER" />
+    <result column="right_parent_id" property="rightParentId" jdbcType="INTEGER" />
+    <result column="right_parents" property="rightParents" jdbcType="VARCHAR" />
+    <result column="right_name" property="rightName" jdbcType="VARCHAR" />
+    <result column="right_url" property="rightUrl" jdbcType="VARCHAR" />
+    <result column="right_description" property="rightDescription" jdbcType="VARCHAR" />
+    <result column="right_code" property="rightCode" jdbcType="VARCHAR" />
+    <result column="available" property="available" jdbcType="INTEGER" />
+    <result column="sorted" property="sorted" jdbcType="INTEGER" />
+    <result column="is_show" property="isShow" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    right_id, right_parent_id, right_parents, right_name, right_url, right_description, 
+    right_code, available, sorted, is_show
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.project.entity.TbRightExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_right
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_right
+    where right_id = #{rightId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_right
+    where right_id = #{rightId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.project.entity.TbRightExample" >
+    delete from tb_right
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.project.entity.TbRight" >
+    insert into tb_right (right_id, right_parent_id, right_parents, 
+      right_name, right_url, right_description, 
+      right_code, available, sorted, 
+      is_show)
+    values (#{rightId,jdbcType=INTEGER}, #{rightParentId,jdbcType=INTEGER}, #{rightParents,jdbcType=VARCHAR}, 
+      #{rightName,jdbcType=VARCHAR}, #{rightUrl,jdbcType=VARCHAR}, #{rightDescription,jdbcType=VARCHAR}, 
+      #{rightCode,jdbcType=VARCHAR}, #{available,jdbcType=INTEGER}, #{sorted,jdbcType=INTEGER}, 
+      #{isShow,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.entity.TbRight" >
+    insert into tb_right
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rightId != null" >
+        right_id,
+      </if>
+      <if test="rightParentId != null" >
+        right_parent_id,
+      </if>
+      <if test="rightParents != null" >
+        right_parents,
+      </if>
+      <if test="rightName != null" >
+        right_name,
+      </if>
+      <if test="rightUrl != null" >
+        right_url,
+      </if>
+      <if test="rightDescription != null" >
+        right_description,
+      </if>
+      <if test="rightCode != null" >
+        right_code,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+      <if test="sorted != null" >
+        sorted,
+      </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rightId != null" >
+        #{rightId,jdbcType=INTEGER},
+      </if>
+      <if test="rightParentId != null" >
+        #{rightParentId,jdbcType=INTEGER},
+      </if>
+      <if test="rightParents != null" >
+        #{rightParents,jdbcType=VARCHAR},
+      </if>
+      <if test="rightName != null" >
+        #{rightName,jdbcType=VARCHAR},
+      </if>
+      <if test="rightUrl != null" >
+        #{rightUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="rightDescription != null" >
+        #{rightDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="rightCode != null" >
+        #{rightCode,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=INTEGER},
+      </if>
+      <if test="sorted != null" >
+        #{sorted,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.project.entity.TbRightExample" resultType="java.lang.Integer" >
+    select count(*) from tb_right
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_right
+    <set >
+      <if test="record.rightId != null" >
+        right_id = #{record.rightId,jdbcType=INTEGER},
+      </if>
+      <if test="record.rightParentId != null" >
+        right_parent_id = #{record.rightParentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.rightParents != null" >
+        right_parents = #{record.rightParents,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rightName != null" >
+        right_name = #{record.rightName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rightUrl != null" >
+        right_url = #{record.rightUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rightDescription != null" >
+        right_description = #{record.rightDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rightCode != null" >
+        right_code = #{record.rightCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.available != null" >
+        available = #{record.available,jdbcType=INTEGER},
+      </if>
+      <if test="record.sorted != null" >
+        sorted = #{record.sorted,jdbcType=INTEGER},
+      </if>
+      <if test="record.isShow != null" >
+        is_show = #{record.isShow,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_right
+    set right_id = #{record.rightId,jdbcType=INTEGER},
+      right_parent_id = #{record.rightParentId,jdbcType=INTEGER},
+      right_parents = #{record.rightParents,jdbcType=VARCHAR},
+      right_name = #{record.rightName,jdbcType=VARCHAR},
+      right_url = #{record.rightUrl,jdbcType=VARCHAR},
+      right_description = #{record.rightDescription,jdbcType=VARCHAR},
+      right_code = #{record.rightCode,jdbcType=VARCHAR},
+      available = #{record.available,jdbcType=INTEGER},
+      sorted = #{record.sorted,jdbcType=INTEGER},
+      is_show = #{record.isShow,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.entity.TbRight" >
+    update tb_right
+    <set >
+      <if test="rightParentId != null" >
+        right_parent_id = #{rightParentId,jdbcType=INTEGER},
+      </if>
+      <if test="rightParents != null" >
+        right_parents = #{rightParents,jdbcType=VARCHAR},
+      </if>
+      <if test="rightName != null" >
+        right_name = #{rightName,jdbcType=VARCHAR},
+      </if>
+      <if test="rightUrl != null" >
+        right_url = #{rightUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="rightDescription != null" >
+        right_description = #{rightDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="rightCode != null" >
+        right_code = #{rightCode,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=INTEGER},
+      </if>
+      <if test="sorted != null" >
+        sorted = #{sorted,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=TINYINT},
+      </if>
+    </set>
+    where right_id = #{rightId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.entity.TbRight" >
+    update tb_right
+    set right_parent_id = #{rightParentId,jdbcType=INTEGER},
+      right_parents = #{rightParents,jdbcType=VARCHAR},
+      right_name = #{rightName,jdbcType=VARCHAR},
+      right_url = #{rightUrl,jdbcType=VARCHAR},
+      right_description = #{rightDescription,jdbcType=VARCHAR},
+      right_code = #{rightCode,jdbcType=VARCHAR},
+      available = #{available,jdbcType=INTEGER},
+      sorted = #{sorted,jdbcType=INTEGER},
+      is_show = #{isShow,jdbcType=TINYINT}
+    where right_id = #{rightId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.TbOrganizationMapper" >
+  <resultMap id="BaseResultMap" type="com.project.entity.TbOrganization" >
+    <id column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_parent_id" property="orgParentId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_gen_time" property="orgGenTime" jdbcType="TIMESTAMP" />
+    <result column="org_description" property="orgDescription" jdbcType="VARCHAR" />
+    <result column="org_parents" property="orgParents" jdbcType="VARCHAR" />
+    <result column="available" property="available" jdbcType="TINYINT" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    org_id, org_parent_id, org_name, org_gen_time, org_description, org_parents, available, 
+    org_code
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.project.entity.TbOrganizationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_organization
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_organization
+    where org_id = #{orgId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_organization
+    where org_id = #{orgId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.project.entity.TbOrganizationExample" >
+    delete from tb_organization
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.project.entity.TbOrganization" >
+    insert into tb_organization (org_id, org_parent_id, org_name, 
+      org_gen_time, org_description, org_parents, 
+      available, org_code)
+    values (#{orgId,jdbcType=INTEGER}, #{orgParentId,jdbcType=INTEGER}, #{orgName,jdbcType=VARCHAR}, 
+      #{orgGenTime,jdbcType=TIMESTAMP}, #{orgDescription,jdbcType=VARCHAR}, #{orgParents,jdbcType=VARCHAR}, 
+      #{available,jdbcType=TINYINT}, #{orgCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.entity.TbOrganization" >
+    insert into tb_organization
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgParentId != null" >
+        org_parent_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="orgGenTime != null" >
+        org_gen_time,
+      </if>
+      <if test="orgDescription != null" >
+        org_description,
+      </if>
+      <if test="orgParents != null" >
+        org_parents,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgParentId != null" >
+        #{orgParentId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGenTime != null" >
+        #{orgGenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgDescription != null" >
+        #{orgDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="orgParents != null" >
+        #{orgParents,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=TINYINT},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.project.entity.TbOrganizationExample" resultType="java.lang.Integer" >
+    select count(*) from tb_organization
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_organization
+    <set >
+      <if test="record.orgId != null" >
+        org_id = #{record.orgId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgParentId != null" >
+        org_parent_id = #{record.orgParentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgName != null" >
+        org_name = #{record.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgGenTime != null" >
+        org_gen_time = #{record.orgGenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orgDescription != null" >
+        org_description = #{record.orgDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgParents != null" >
+        org_parents = #{record.orgParents,jdbcType=VARCHAR},
+      </if>
+      <if test="record.available != null" >
+        available = #{record.available,jdbcType=TINYINT},
+      </if>
+      <if test="record.orgCode != null" >
+        org_code = #{record.orgCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_organization
+    set org_id = #{record.orgId,jdbcType=INTEGER},
+      org_parent_id = #{record.orgParentId,jdbcType=INTEGER},
+      org_name = #{record.orgName,jdbcType=VARCHAR},
+      org_gen_time = #{record.orgGenTime,jdbcType=TIMESTAMP},
+      org_description = #{record.orgDescription,jdbcType=VARCHAR},
+      org_parents = #{record.orgParents,jdbcType=VARCHAR},
+      available = #{record.available,jdbcType=TINYINT},
+      org_code = #{record.orgCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.entity.TbOrganization" >
+    update tb_organization
+    <set >
+      <if test="orgParentId != null" >
+        org_parent_id = #{orgParentId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGenTime != null" >
+        org_gen_time = #{orgGenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgDescription != null" >
+        org_description = #{orgDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="orgParents != null" >
+        org_parents = #{orgParents,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=TINYINT},
+      </if>
+      <if test="orgCode != null" >
+        org_code = #{orgCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where org_id = #{orgId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.entity.TbOrganization" >
+    update tb_organization
+    set org_parent_id = #{orgParentId,jdbcType=INTEGER},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      org_gen_time = #{orgGenTime,jdbcType=TIMESTAMP},
+      org_description = #{orgDescription,jdbcType=VARCHAR},
+      org_parents = #{orgParents,jdbcType=VARCHAR},
+      available = #{available,jdbcType=TINYINT},
+      org_code = #{orgCode,jdbcType=VARCHAR}
+    where org_id = #{orgId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.TbGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.project.entity.TbGroup" >
+    <id column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="group_parent_id" property="groupParentId" jdbcType="INTEGER" />
+    <result column="group_parents" property="groupParents" jdbcType="VARCHAR" />
+    <result column="group_gen_time" property="groupGenTime" jdbcType="TIMESTAMP" />
+    <result column="group_description" property="groupDescription" jdbcType="VARCHAR" />
+    <result column="available" property="available" jdbcType="INTEGER" />
+    <result column="group_code" property="groupCode" jdbcType="VARCHAR" />
+    <result column="sorted" property="sorted" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    group_id, group_name, group_parent_id, group_parents, group_gen_time, group_description, 
+    available, group_code, sorted
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.project.entity.TbGroupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_group
+    where group_id = #{groupId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_group
+    where group_id = #{groupId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.project.entity.TbGroupExample" >
+    delete from tb_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.project.entity.TbGroup" >
+    insert into tb_group (group_id, group_name, group_parent_id, 
+      group_parents, group_gen_time, group_description, 
+      available, group_code, sorted
+      )
+    values (#{groupId,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, #{groupParentId,jdbcType=INTEGER}, 
+      #{groupParents,jdbcType=VARCHAR}, #{groupGenTime,jdbcType=TIMESTAMP}, #{groupDescription,jdbcType=VARCHAR}, 
+      #{available,jdbcType=INTEGER}, #{groupCode,jdbcType=VARCHAR}, #{sorted,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.entity.TbGroup" >
+    insert into tb_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="groupName != null" >
+        group_name,
+      </if>
+      <if test="groupParentId != null" >
+        group_parent_id,
+      </if>
+      <if test="groupParents != null" >
+        group_parents,
+      </if>
+      <if test="groupGenTime != null" >
+        group_gen_time,
+      </if>
+      <if test="groupDescription != null" >
+        group_description,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+      <if test="groupCode != null" >
+        group_code,
+      </if>
+      <if test="sorted != null" >
+        sorted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="groupId != null" >
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupParentId != null" >
+        #{groupParentId,jdbcType=INTEGER},
+      </if>
+      <if test="groupParents != null" >
+        #{groupParents,jdbcType=VARCHAR},
+      </if>
+      <if test="groupGenTime != null" >
+        #{groupGenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupDescription != null" >
+        #{groupDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=INTEGER},
+      </if>
+      <if test="groupCode != null" >
+        #{groupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sorted != null" >
+        #{sorted,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.project.entity.TbGroupExample" resultType="java.lang.Integer" >
+    select count(*) from tb_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_group
+    <set >
+      <if test="record.groupId != null" >
+        group_id = #{record.groupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupName != null" >
+        group_name = #{record.groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupParentId != null" >
+        group_parent_id = #{record.groupParentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupParents != null" >
+        group_parents = #{record.groupParents,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupGenTime != null" >
+        group_gen_time = #{record.groupGenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.groupDescription != null" >
+        group_description = #{record.groupDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.available != null" >
+        available = #{record.available,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupCode != null" >
+        group_code = #{record.groupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sorted != null" >
+        sorted = #{record.sorted,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_group
+    set group_id = #{record.groupId,jdbcType=INTEGER},
+      group_name = #{record.groupName,jdbcType=VARCHAR},
+      group_parent_id = #{record.groupParentId,jdbcType=INTEGER},
+      group_parents = #{record.groupParents,jdbcType=VARCHAR},
+      group_gen_time = #{record.groupGenTime,jdbcType=TIMESTAMP},
+      group_description = #{record.groupDescription,jdbcType=VARCHAR},
+      available = #{record.available,jdbcType=INTEGER},
+      group_code = #{record.groupCode,jdbcType=VARCHAR},
+      sorted = #{record.sorted,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.entity.TbGroup" >
+    update tb_group
+    <set >
+      <if test="groupName != null" >
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupParentId != null" >
+        group_parent_id = #{groupParentId,jdbcType=INTEGER},
+      </if>
+      <if test="groupParents != null" >
+        group_parents = #{groupParents,jdbcType=VARCHAR},
+      </if>
+      <if test="groupGenTime != null" >
+        group_gen_time = #{groupGenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupDescription != null" >
+        group_description = #{groupDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=INTEGER},
+      </if>
+      <if test="groupCode != null" >
+        group_code = #{groupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sorted != null" >
+        sorted = #{sorted,jdbcType=TINYINT},
+      </if>
+    </set>
+    where group_id = #{groupId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.entity.TbGroup" >
+    update tb_group
+    set group_name = #{groupName,jdbcType=VARCHAR},
+      group_parent_id = #{groupParentId,jdbcType=INTEGER},
+      group_parents = #{groupParents,jdbcType=VARCHAR},
+      group_gen_time = #{groupGenTime,jdbcType=TIMESTAMP},
+      group_description = #{groupDescription,jdbcType=VARCHAR},
+      available = #{available,jdbcType=INTEGER},
+      group_code = #{groupCode,jdbcType=VARCHAR},
+      sorted = #{sorted,jdbcType=TINYINT}
+    where group_id = #{groupId,jdbcType=INTEGER}
+  </update>
+</mapper>

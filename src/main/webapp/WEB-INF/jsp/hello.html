@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>测试</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<link href="${assets}/css/font-awesome.css" rel="stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans'
+	rel='stylesheet' type='text/css' />
+<link href="${css}/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="${assets}/materialize/css/materialize.min.css"
+	media="screen,projection" />
+<link href="${assets}/ligerui/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+<link href="${css}/main.css">
+<script type="text/javascript">
+	var serverpath = '${serverpath}';
+</script>
+<link href="${css}/frame.css" rel="stylesheet">
+<link href="${css}/main.css" rel="stylesheet">
+</head>
+<body><!--  navbar-fixed-top -->
+	<nav class="navbar navebar-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand navbar-head waves-effect waves-light" href="#">
+				<i class="large material-icons">insert_chart</i> <strong>后台管理</strong></a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="dropdown-button waves-effect waves-dark"
+					href="#!" data-activates="dropdown4"><i
+						class="fa fa-envelope fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				<li><a class="dropdown-button waves-effect waves-dark"
+					href="#!" data-activates="dropdown3"><i
+						class="fa fa-tasks fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				<li><a class="dropdown-button waves-effect waves-dark"
+					href="#!" data-activates="dropdown2"><i
+						class="fa fa-bell fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
+				<li><a class="dropdown-button waves-effect waves-dark"
+					href="#!" data-activates="setting"><i
+						class="fa fa-user fa-fw"></i> <b>John Doe</b> <i
+						class="material-icons right">arrow_drop_down</i></a></li>
+				</ul>
+			</div>
+		</div>
+		<ul id="setting" class="dropdown-content">
+			<li><a href="#"><i class="fa fa-user fa-fw"></i>我的信息</a></li>
+			<li><a href="#"><i class="fa fa-gear fa-fw"></i>修改密码</a></li>
+			<li><a href="#"><i class="fa fa-sign-out fa-fw"></i>退出</a></li>
+		</ul>
+	</nav>
+		<div id="layout">
+			<div id="layoutleft" position="left" title="系统菜单"  style="overflow:auto">		
+		     	<ul id="tree" style="margin-top:3px;"></ul> 
+			</div>
+		    <div id="layoutcenter" position="center"></div>
+		</div>
+</body>
+<script src="${assets}/js/jquery-1.10.2.js"></script>
+<script src="${assets}/materialize/js/materialize.min.js"></script>
+<script src="${assets}/ligerui/js/ligerui.all.js" type="text/javascript"></script>
+<script type="text/javascript" src="${project}/js/sys/frame/index.js"></script>
+</html>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.TbLogMapper" >
+  <resultMap id="BaseResultMap" type="com.project.entity.TbLog" >
+    <id column="log_id" property="logId" jdbcType="INTEGER" />
+    <result column="log_operate_type" property="logOperateType" jdbcType="INTEGER" />
+    <result column="log_operate_content" property="logOperateContent" jdbcType="VARCHAR" />
+    <result column="log_operate_user_id" property="logOperateUserId" jdbcType="INTEGER" />
+    <result column="log_operate_time" property="logOperateTime" jdbcType="TIMESTAMP" />
+    <result column="log_time" property="logTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    log_id, log_operate_type, log_operate_content, log_operate_user_id, log_operate_time, 
+    log_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.project.entity.TbLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.project.entity.TbLogExample" >
+    delete from tb_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.project.entity.TbLog" >
+    insert into tb_log (log_id, log_operate_type, log_operate_content, 
+      log_operate_user_id, log_operate_time, log_time
+      )
+    values (#{logId,jdbcType=INTEGER}, #{logOperateType,jdbcType=INTEGER}, #{logOperateContent,jdbcType=VARCHAR}, 
+      #{logOperateUserId,jdbcType=INTEGER}, #{logOperateTime,jdbcType=TIMESTAMP}, #{logTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.entity.TbLog" >
+    insert into tb_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        log_id,
+      </if>
+      <if test="logOperateType != null" >
+        log_operate_type,
+      </if>
+      <if test="logOperateContent != null" >
+        log_operate_content,
+      </if>
+      <if test="logOperateUserId != null" >
+        log_operate_user_id,
+      </if>
+      <if test="logOperateTime != null" >
+        log_operate_time,
+      </if>
+      <if test="logTime != null" >
+        log_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="logOperateType != null" >
+        #{logOperateType,jdbcType=INTEGER},
+      </if>
+      <if test="logOperateContent != null" >
+        #{logOperateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="logOperateUserId != null" >
+        #{logOperateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="logOperateTime != null" >
+        #{logOperateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logTime != null" >
+        #{logTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.project.entity.TbLogExample" resultType="java.lang.Integer" >
+    select count(*) from tb_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_log
+    <set >
+      <if test="record.logId != null" >
+        log_id = #{record.logId,jdbcType=INTEGER},
+      </if>
+      <if test="record.logOperateType != null" >
+        log_operate_type = #{record.logOperateType,jdbcType=INTEGER},
+      </if>
+      <if test="record.logOperateContent != null" >
+        log_operate_content = #{record.logOperateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logOperateUserId != null" >
+        log_operate_user_id = #{record.logOperateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.logOperateTime != null" >
+        log_operate_time = #{record.logOperateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.logTime != null" >
+        log_time = #{record.logTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_log
+    set log_id = #{record.logId,jdbcType=INTEGER},
+      log_operate_type = #{record.logOperateType,jdbcType=INTEGER},
+      log_operate_content = #{record.logOperateContent,jdbcType=VARCHAR},
+      log_operate_user_id = #{record.logOperateUserId,jdbcType=INTEGER},
+      log_operate_time = #{record.logOperateTime,jdbcType=TIMESTAMP},
+      log_time = #{record.logTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.entity.TbLog" >
+    update tb_log
+    <set >
+      <if test="logOperateType != null" >
+        log_operate_type = #{logOperateType,jdbcType=INTEGER},
+      </if>
+      <if test="logOperateContent != null" >
+        log_operate_content = #{logOperateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="logOperateUserId != null" >
+        log_operate_user_id = #{logOperateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="logOperateTime != null" >
+        log_operate_time = #{logOperateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logTime != null" >
+        log_time = #{logTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.entity.TbLog" >
+    update tb_log
+    set log_operate_type = #{logOperateType,jdbcType=INTEGER},
+      log_operate_content = #{logOperateContent,jdbcType=VARCHAR},
+      log_operate_user_id = #{logOperateUserId,jdbcType=INTEGER},
+      log_operate_time = #{logOperateTime,jdbcType=TIMESTAMP},
+      log_time = #{logTime,jdbcType=TIMESTAMP}
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+</mapper>

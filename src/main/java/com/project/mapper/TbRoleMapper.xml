@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.TbRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.project.entity.TbRole" >
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="role_parent_id" property="roleParentId" jdbcType="INTEGER" />
+    <result column="role_parents" property="roleParents" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="role_gen_time" property="roleGenTime" jdbcType="TIMESTAMP" />
+    <result column="role_description" property="roleDescription" jdbcType="VARCHAR" />
+    <result column="available" property="available" jdbcType="VARCHAR" />
+    <result column="role_code" property="roleCode" jdbcType="VARCHAR" />
+    <result column="sorted" property="sorted" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    role_id, role_parent_id, role_parents, role_name, role_gen_time, role_description, 
+    available, role_code, sorted
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.project.entity.TbRoleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.project.entity.TbRoleExample" >
+    delete from tb_role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.project.entity.TbRole" >
+    insert into tb_role (role_id, role_parent_id, role_parents, 
+      role_name, role_gen_time, role_description, 
+      available, role_code, sorted
+      )
+    values (#{roleId,jdbcType=INTEGER}, #{roleParentId,jdbcType=INTEGER}, #{roleParents,jdbcType=VARCHAR}, 
+      #{roleName,jdbcType=VARCHAR}, #{roleGenTime,jdbcType=TIMESTAMP}, #{roleDescription,jdbcType=VARCHAR}, 
+      #{available,jdbcType=VARCHAR}, #{roleCode,jdbcType=VARCHAR}, #{sorted,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.project.entity.TbRole" >
+    insert into tb_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="roleParentId != null" >
+        role_parent_id,
+      </if>
+      <if test="roleParents != null" >
+        role_parents,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="roleGenTime != null" >
+        role_gen_time,
+      </if>
+      <if test="roleDescription != null" >
+        role_description,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+      <if test="roleCode != null" >
+        role_code,
+      </if>
+      <if test="sorted != null" >
+        sorted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="roleParentId != null" >
+        #{roleParentId,jdbcType=INTEGER},
+      </if>
+      <if test="roleParents != null" >
+        #{roleParents,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleGenTime != null" >
+        #{roleGenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleDescription != null" >
+        #{roleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=VARCHAR},
+      </if>
+      <if test="roleCode != null" >
+        #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sorted != null" >
+        #{sorted,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.project.entity.TbRoleExample" resultType="java.lang.Integer" >
+    select count(*) from tb_role
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_role
+    <set >
+      <if test="record.roleId != null" >
+        role_id = #{record.roleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.roleParentId != null" >
+        role_parent_id = #{record.roleParentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.roleParents != null" >
+        role_parents = #{record.roleParents,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleName != null" >
+        role_name = #{record.roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleGenTime != null" >
+        role_gen_time = #{record.roleGenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.roleDescription != null" >
+        role_description = #{record.roleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.available != null" >
+        available = #{record.available,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleCode != null" >
+        role_code = #{record.roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sorted != null" >
+        sorted = #{record.sorted,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_role
+    set role_id = #{record.roleId,jdbcType=INTEGER},
+      role_parent_id = #{record.roleParentId,jdbcType=INTEGER},
+      role_parents = #{record.roleParents,jdbcType=VARCHAR},
+      role_name = #{record.roleName,jdbcType=VARCHAR},
+      role_gen_time = #{record.roleGenTime,jdbcType=TIMESTAMP},
+      role_description = #{record.roleDescription,jdbcType=VARCHAR},
+      available = #{record.available,jdbcType=VARCHAR},
+      role_code = #{record.roleCode,jdbcType=VARCHAR},
+      sorted = #{record.sorted,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.project.entity.TbRole" >
+    update tb_role
+    <set >
+      <if test="roleParentId != null" >
+        role_parent_id = #{roleParentId,jdbcType=INTEGER},
+      </if>
+      <if test="roleParents != null" >
+        role_parents = #{roleParents,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleGenTime != null" >
+        role_gen_time = #{roleGenTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleDescription != null" >
+        role_description = #{roleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=VARCHAR},
+      </if>
+      <if test="roleCode != null" >
+        role_code = #{roleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sorted != null" >
+        sorted = #{sorted,jdbcType=TINYINT},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.project.entity.TbRole" >
+    update tb_role
+    set role_parent_id = #{roleParentId,jdbcType=INTEGER},
+      role_parents = #{roleParents,jdbcType=VARCHAR},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      role_gen_time = #{roleGenTime,jdbcType=TIMESTAMP},
+      role_description = #{roleDescription,jdbcType=VARCHAR},
+      available = #{available,jdbcType=VARCHAR},
+      role_code = #{roleCode,jdbcType=VARCHAR},
+      sorted = #{sorted,jdbcType=TINYINT}
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,62 @@
+body {
+	padding: 0px;
+	margin: 0;
+	padding-bottom: 0px;
+	border:0 none;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+}
+#layout {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+.l-page-top {
+	height: 50px;
+	background: #f8f8f8;
+	margin-bottom: 1px;
+	overflow:hidden;
+	background:transparent url(images/banner.png) repeat-x scroll 0 -1px;
+}
+.l-page-top-left {
+	float:left; 
+	padding:0px;
+	width:400px;
+	height:50px;
+	background:transparent url(images/banner_left.png) repeat-x scroll 0 -1px;
+}
+.l-page-top-right {
+	float:right;
+	padding:0px;
+	width:300px;
+	height:50px;
+	background:transparent url(images/banner_right.png) repeat-x scroll 0 -1px;
+}
+.banner-right-text {
+	float:left;
+	width:70px;	
+	height:20px;	
+	color:#ffffff;
+	cursor:pointer;
+	text-align:center;
+	padding-left:1px;
+	padding-right:1px;
+	line-height:20px;
+}
+.banner-right-split {
+	float:left;	
+	width:10px;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	background:url(images/1.gif) no-repeat;
+	background-position: center -3px;
+}
+.banner-right-user {
+	height:30px;
+	color:#007ddb;
+	text-align:right;
+	padding-right:20px;
+	line-height:30px;
+}

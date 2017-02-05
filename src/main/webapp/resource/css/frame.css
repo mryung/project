@@ -1,0 +1,42 @@
+@CHARSET "UTF-8";
+
+.navbar-head {
+	background-color: #30cc7b;
+}
+
+.navbar-brand i.large.material-icons {
+	float: left;
+	font-size: 31px;
+	margin-right: 6px;
+}
+.navebar-top{
+	background-color: #ffffff;
+	margin-bottom: 0px;
+	padding-bottom: 10px;
+}
+.navebar-top .navbar-brand {
+	color: #fff;
+	width: 260px;
+	text-align: left;
+	height: 60px;
+	font-size: 24px;
+	font-weight: 700; /* text-transform: uppercase; */
+	line-height: 30px;
+	background: #30cc7b;
+}
+.navebar-top .nav > li > a {
+    padding: 17px;
+    color: #484848;
+    margin: 0px;
+}
+#setting{
+	margin-top: 60px;
+	margin-right: 20px;
+}
+.content-body{
+	float: left;
+}
+.container-fluid{
+	padding: 0px;
+	margin: 0px;
+}
