@@ -2,6 +2,8 @@ package com.project.entity;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class TbRole {
     private Integer roleId;
 
@@ -10,16 +12,19 @@ public class TbRole {
     private String roleParents;
 
     private String roleName;
-
+    
+	@DateTimeFormat(pattern="yyyy-MM-dd")
     private Date roleGenTime;
 
     private String roleDescription;
 
-    private String available;
+    private Integer available;
 
     private String roleCode;
 
     private Byte sorted;
+
+    private Integer deleted;
 
     public Integer getRoleId() {
         return roleId;
@@ -69,12 +74,12 @@ public class TbRole {
         this.roleDescription = roleDescription == null ? null : roleDescription.trim();
     }
 
-    public String getAvailable() {
+    public Integer getAvailable() {
         return available;
     }
 
-    public void setAvailable(String available) {
-        this.available = available == null ? null : available.trim();
+    public void setAvailable(Integer available) {
+        this.available = available;
     }
 
     public String getRoleCode() {
@@ -91,5 +96,13 @@ public class TbRole {
 
     public void setSorted(Byte sorted) {
         this.sorted = sorted;
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
     }
 }

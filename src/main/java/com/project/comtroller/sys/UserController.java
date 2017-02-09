@@ -14,6 +14,9 @@ import com.myproject.message.Pageable;
 import com.project.comtroller.BasicController;
 import com.project.entity.TbUser;
 import com.project.mapper.TbRightMapper;
+import com.project.service.OrganizationService;
+import com.project.service.RightService;
+import com.project.service.RoleService;
 import com.project.service.UserService;
 
 @Controller
@@ -26,15 +29,28 @@ public class UserController extends BasicController{
 	@Autowired
 	private UserService userService;
 	
+	@Autowired 
+	private OrganizationService orgService;
+
+	@Autowired
+	private RoleService roleService;
+	
+	@Autowired
+	private RightService rightService;
+	
 	@RequestMapping(value="/add",method=RequestMethod.GET)
-	public String add(Map<String, Object> map){
-		PageHelper.startPage(1, 1);
-		System.out.println(rightDao.selectByExample(null));
+	public String add(Map<String, Object> map,Integer userId,Integer orgId){
+
+		map.put("userId", userId);
+		if(orgId != null){
+			//得到部门的详细信息
+			map.put("org", orgService.findOrgById(orgId));
+		}
 		return html("sys/user/add", map);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/add",method=RequestMethod.POST)
+	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public Map<String,Object> add(TbUser user){
 		Message message = Message.newMessage();
 		
@@ -51,10 +67,42 @@ public class UserController extends BasicController{
 	
 	@ResponseBody
 	@RequestMapping(value="/list",method=RequestMethod.POST)
-	public Map<String, Object> list(Map<String, Object> map,Pageable pageable,Integer orgId){
+	public Map<String, Object> list(Pageable pageable,Integer orgId){
 		Message message = Message.newMessage();
-		message.put("pageInfo", userService.listUser(1, 10,orgId));
+		message.put("pageInfo", userService.listUser(pageable.getPage(), pageable.getPagesize(),orgId));
 		return json(0, "", message);
 	}
 	
+	
+	@ResponseBody
+	@RequestMapping(value="/orgTree",method=RequestMethod.POST)
+	public Map<String,Object> orgTree(Integer orgId){
+		Message message = Message.newMessage();
+		message.put("tree", orgService.listUserOrgTree(orgId));
+		return json(0, "", message);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/roleTree",method=RequestMethod.POST)
+	public Map<String,Object> RoleTree(Integer userId){
+		Message message = Message.newMessage();
+		message.put("tree", roleService.listUserRoleTree(userId));
+		return json(0, "", message);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/rightTree",method=RequestMethod.POST)
+	public Map<String,Object> rightTree(Integer userId){
+		Message message = Message.newMessage();
+		message.put("tree", rightService.listUserRightTree(userId));
+		return json(0, "", message);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/userData",method=RequestMethod.POST)
+	public Map<String,Object> userData(Integer userId){
+		Message message = Message.newMessage();
+		message.put("user", userService.selectUserById(userId));
+		return json(0, "", message);
+	}
 }

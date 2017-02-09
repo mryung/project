@@ -21,6 +21,8 @@ public class TbGroup {
 
     private Byte sorted;
 
+    private Integer deleted;
+
     public Integer getGroupId() {
         return groupId;
     }
@@ -91,5 +93,13 @@ public class TbGroup {
 
     public void setSorted(Byte sorted) {
         this.sorted = sorted;
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
     }
 }

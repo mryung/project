@@ -44,7 +44,7 @@ $(function() {
 		tabid : 0,
 		text : "我的主页",
 		showClose : false,
-		url : serverpath + "/sys/todo/index"
+		url : serverpath + "/sys/frame/welcome"
 	});
 });
 

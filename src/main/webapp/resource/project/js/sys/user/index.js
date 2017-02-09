@@ -1,5 +1,4 @@
-var usrId = "";
-var dptId = "";
+var userId = "";
 var orgId = "";
 var tree = null;
 $(function() {
@@ -43,11 +42,7 @@ $(function() {
 		slide : true,
 		checkbox : false,
 		onClick : function(note) {
-			if(note.data.orgId=="1"){
-				orgId="";
-			}else{
-				orgId=note.data.orgId;
-			}
+			orgId=note.data.orgId;
 			refreshGrid();
 		},
 		nodeWidth : 200
@@ -93,15 +88,11 @@ $(function() {
 		pageSize : 100,
 		method : "POST",
 		onDblClickRow : function(data, rowindex, rowobj) {
-			usrId = data.usrid;
-			dptId = data.usrdept;
-			orgId = data.usrorgan;
+			userId = data.userId;
 			editUserWindow();
 		},
 		onSelectRow : function(data, rowindex, rowobj) {
-			usrId = data.usrid;
-			dptId = data.usrdept;
-			orgId = data.usrorgan;
+			userId = data.userId;
 		},
 		rownumbers : true
 	});
@@ -129,18 +120,17 @@ function addUserWindow() {
 	openWindow("", dptId, orgId);
 }
 function editUserWindow(){
-	if (usrId == "") {
+	if (userId == "") {
 		$.ligerDialog.warn('请选择修改用户');
 		return false;
 	}
-	openWindow(usrId, dptId, orgId);
+	openWindow(userId);
 }
 //创建子窗口 用于修改或新增
-function openWindow(usrid, dptid, orgid) {
-	var url = serverpath + '/sys/user/add?='+usrid+
-			'&dptId='+dptid+"&orgId="+orgid;
+function openWindow(userId) {
+	var url = serverpath + '/sys/user/add?userId='+userId;
 	var title = "用户信息【新增】";
-	if (usrid != "") {
+	if (userId != "") {
 		title = "用户信息【修改】";
 	}
 	$.ligerDialog.open({

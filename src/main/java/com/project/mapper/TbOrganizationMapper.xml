@@ -10,6 +10,7 @@
     <result column="org_parents" property="orgParents" jdbcType="VARCHAR" />
     <result column="available" property="available" jdbcType="TINYINT" />
     <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,7 +72,7 @@
   </sql>
   <sql id="Base_Column_List" >
     org_id, org_parent_id, org_name, org_gen_time, org_description, org_parents, available, 
-    org_code
+    org_code, deleted
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.project.entity.TbOrganizationExample" >
     select
@@ -106,10 +107,12 @@
   <insert id="insert" parameterType="com.project.entity.TbOrganization" >
     insert into tb_organization (org_id, org_parent_id, org_name, 
       org_gen_time, org_description, org_parents, 
-      available, org_code)
+      available, org_code, deleted
+      )
     values (#{orgId,jdbcType=INTEGER}, #{orgParentId,jdbcType=INTEGER}, #{orgName,jdbcType=VARCHAR}, 
       #{orgGenTime,jdbcType=TIMESTAMP}, #{orgDescription,jdbcType=VARCHAR}, #{orgParents,jdbcType=VARCHAR}, 
-      #{available,jdbcType=TINYINT}, #{orgCode,jdbcType=VARCHAR})
+      #{available,jdbcType=TINYINT}, #{orgCode,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.project.entity.TbOrganization" >
     insert into tb_organization
@@ -138,6 +141,9 @@
       <if test="orgCode != null" >
         org_code,
       </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="orgId != null" >
@@ -163,6 +169,9 @@
       </if>
       <if test="orgCode != null" >
         #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -199,6 +208,9 @@
       <if test="record.orgCode != null" >
         org_code = #{record.orgCode,jdbcType=VARCHAR},
       </if>
+      <if test="record.deleted != null" >
+        deleted = #{record.deleted,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -213,7 +225,8 @@
       org_description = #{record.orgDescription,jdbcType=VARCHAR},
       org_parents = #{record.orgParents,jdbcType=VARCHAR},
       available = #{record.available,jdbcType=TINYINT},
-      org_code = #{record.orgCode,jdbcType=VARCHAR}
+      org_code = #{record.orgCode,jdbcType=VARCHAR},
+      deleted = #{record.deleted,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -242,6 +255,9 @@
       <if test="orgCode != null" >
         org_code = #{orgCode,jdbcType=VARCHAR},
       </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
     </set>
     where org_id = #{orgId,jdbcType=INTEGER}
   </update>
@@ -253,7 +269,8 @@
       org_description = #{orgDescription,jdbcType=VARCHAR},
       org_parents = #{orgParents,jdbcType=VARCHAR},
       available = #{available,jdbcType=TINYINT},
-      org_code = #{orgCode,jdbcType=VARCHAR}
+      org_code = #{orgCode,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER}
     where org_id = #{orgId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -505,62 +505,52 @@ public class TbRoleExample {
             return (Criteria) this;
         }
 
-        public Criteria andAvailableEqualTo(String value) {
+        public Criteria andAvailableEqualTo(Integer value) {
             addCriterion("available =", value, "available");
             return (Criteria) this;
         }
 
-        public Criteria andAvailableNotEqualTo(String value) {
+        public Criteria andAvailableNotEqualTo(Integer value) {
             addCriterion("available <>", value, "available");
             return (Criteria) this;
         }
 
-        public Criteria andAvailableGreaterThan(String value) {
+        public Criteria andAvailableGreaterThan(Integer value) {
             addCriterion("available >", value, "available");
             return (Criteria) this;
         }
 
-        public Criteria andAvailableGreaterThanOrEqualTo(String value) {
+        public Criteria andAvailableGreaterThanOrEqualTo(Integer value) {
             addCriterion("available >=", value, "available");
             return (Criteria) this;
         }
 
-        public Criteria andAvailableLessThan(String value) {
+        public Criteria andAvailableLessThan(Integer value) {
             addCriterion("available <", value, "available");
             return (Criteria) this;
         }
 
-        public Criteria andAvailableLessThanOrEqualTo(String value) {
+        public Criteria andAvailableLessThanOrEqualTo(Integer value) {
             addCriterion("available <=", value, "available");
             return (Criteria) this;
         }
 
-        public Criteria andAvailableLike(String value) {
-            addCriterion("available like", value, "available");
-            return (Criteria) this;
-        }
-
-        public Criteria andAvailableNotLike(String value) {
-            addCriterion("available not like", value, "available");
-            return (Criteria) this;
-        }
-
-        public Criteria andAvailableIn(List<String> values) {
+        public Criteria andAvailableIn(List<Integer> values) {
             addCriterion("available in", values, "available");
             return (Criteria) this;
         }
 
-        public Criteria andAvailableNotIn(List<String> values) {
+        public Criteria andAvailableNotIn(List<Integer> values) {
             addCriterion("available not in", values, "available");
             return (Criteria) this;
         }
 
-        public Criteria andAvailableBetween(String value1, String value2) {
+        public Criteria andAvailableBetween(Integer value1, Integer value2) {
             addCriterion("available between", value1, value2, "available");
             return (Criteria) this;
         }
 
-        public Criteria andAvailableNotBetween(String value1, String value2) {
+        public Criteria andAvailableNotBetween(Integer value1, Integer value2) {
             addCriterion("available not between", value1, value2, "available");
             return (Criteria) this;
         }
@@ -692,6 +682,66 @@ public class TbRoleExample {
 
         public Criteria andSortedNotBetween(Byte value1, Byte value2) {
             addCriterion("sorted not between", value1, value2, "sorted");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedIsNull() {
+            addCriterion("deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedIsNotNull() {
+            addCriterion("deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedEqualTo(Integer value) {
+            addCriterion("deleted =", value, "deleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedNotEqualTo(Integer value) {
+            addCriterion("deleted <>", value, "deleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedGreaterThan(Integer value) {
+            addCriterion("deleted >", value, "deleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedGreaterThanOrEqualTo(Integer value) {
+            addCriterion("deleted >=", value, "deleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedLessThan(Integer value) {
+            addCriterion("deleted <", value, "deleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedLessThanOrEqualTo(Integer value) {
+            addCriterion("deleted <=", value, "deleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedIn(List<Integer> values) {
+            addCriterion("deleted in", values, "deleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedNotIn(List<Integer> values) {
+            addCriterion("deleted not in", values, "deleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedBetween(Integer value1, Integer value2) {
+            addCriterion("deleted between", value1, value2, "deleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeletedNotBetween(Integer value1, Integer value2) {
+            addCriterion("deleted not between", value1, value2, "deleted");
             return (Criteria) this;
         }
     }

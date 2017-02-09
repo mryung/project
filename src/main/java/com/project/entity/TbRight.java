@@ -21,6 +21,8 @@ public class TbRight {
 
     private Byte isShow;
 
+    private Integer deleted;
+
     public Integer getRightId() {
         return rightId;
     }
@@ -99,5 +101,13 @@ public class TbRight {
 
     public void setIsShow(Byte isShow) {
         this.isShow = isShow;
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
     }
 }

@@ -3,6 +3,7 @@ package com.project.service;
 import java.util.List;
 
 import com.project.entity.TbRight;
+import com.project.entity.project.Right;
 
 public interface RightService {
 	
@@ -14,4 +15,6 @@ public interface RightService {
 	List<TbRight> findRights(String parentid);
 	
 	List<TbRight> findRights(int page,int pageSize,String parentid);
+	
+	public List<Right> listUserRightTree(Integer userId);
 }

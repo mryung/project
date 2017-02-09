@@ -1,6 +1,5 @@
 package com.project.comtroller.sys;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import com.myproject.message.PageInfo;
 import com.myproject.message.Pageable;
 import com.project.comtroller.BasicController;
 import com.project.entity.TbRight;
-import com.project.entity.TbRole;
 import com.project.service.RightService;
 
 /**

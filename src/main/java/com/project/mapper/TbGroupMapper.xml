@@ -11,6 +11,7 @@
     <result column="available" property="available" jdbcType="INTEGER" />
     <result column="group_code" property="groupCode" jdbcType="VARCHAR" />
     <result column="sorted" property="sorted" jdbcType="TINYINT" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List" >
     group_id, group_name, group_parent_id, group_parents, group_gen_time, group_description, 
-    available, group_code, sorted
+    available, group_code, sorted, deleted
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.project.entity.TbGroupExample" >
     select
@@ -107,12 +108,12 @@
   <insert id="insert" parameterType="com.project.entity.TbGroup" >
     insert into tb_group (group_id, group_name, group_parent_id, 
       group_parents, group_gen_time, group_description, 
-      available, group_code, sorted
-      )
+      available, group_code, sorted, 
+      deleted)
     values (#{groupId,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, #{groupParentId,jdbcType=INTEGER}, 
       #{groupParents,jdbcType=VARCHAR}, #{groupGenTime,jdbcType=TIMESTAMP}, #{groupDescription,jdbcType=VARCHAR}, 
-      #{available,jdbcType=INTEGER}, #{groupCode,jdbcType=VARCHAR}, #{sorted,jdbcType=TINYINT}
-      )
+      #{available,jdbcType=INTEGER}, #{groupCode,jdbcType=VARCHAR}, #{sorted,jdbcType=TINYINT}, 
+      #{deleted,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.project.entity.TbGroup" >
     insert into tb_group
@@ -144,6 +145,9 @@
       <if test="sorted != null" >
         sorted,
       </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="groupId != null" >
@@ -172,6 +176,9 @@
       </if>
       <if test="sorted != null" >
         #{sorted,jdbcType=TINYINT},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -211,6 +218,9 @@
       <if test="record.sorted != null" >
         sorted = #{record.sorted,jdbcType=TINYINT},
       </if>
+      <if test="record.deleted != null" >
+        deleted = #{record.deleted,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -226,7 +236,8 @@
       group_description = #{record.groupDescription,jdbcType=VARCHAR},
       available = #{record.available,jdbcType=INTEGER},
       group_code = #{record.groupCode,jdbcType=VARCHAR},
-      sorted = #{record.sorted,jdbcType=TINYINT}
+      sorted = #{record.sorted,jdbcType=TINYINT},
+      deleted = #{record.deleted,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -258,6 +269,9 @@
       <if test="sorted != null" >
         sorted = #{sorted,jdbcType=TINYINT},
       </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
     </set>
     where group_id = #{groupId,jdbcType=INTEGER}
   </update>
@@ -270,7 +284,8 @@
       group_description = #{groupDescription,jdbcType=VARCHAR},
       available = #{available,jdbcType=INTEGER},
       group_code = #{groupCode,jdbcType=VARCHAR},
-      sorted = #{sorted,jdbcType=TINYINT}
+      sorted = #{sorted,jdbcType=TINYINT},
+      deleted = #{deleted,jdbcType=INTEGER}
     where group_id = #{groupId,jdbcType=INTEGER}
   </update>
 </mapper>

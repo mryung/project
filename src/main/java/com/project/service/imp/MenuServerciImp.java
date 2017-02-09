@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.entity.TbRight;
-import com.project.mapper.UnionMapper;
+import com.project.mapper.project.UnionMapper;
 import com.project.service.MenuService;
 
 @Service

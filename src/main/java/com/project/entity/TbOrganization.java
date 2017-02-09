@@ -19,6 +19,8 @@ public class TbOrganization {
 
     private String orgCode;
 
+    private Integer deleted;
+
     public Integer getOrgId() {
         return orgId;
     }
@@ -81,5 +83,13 @@ public class TbOrganization {
 
     public void setOrgCode(String orgCode) {
         this.orgCode = orgCode == null ? null : orgCode.trim();
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
     }
 }

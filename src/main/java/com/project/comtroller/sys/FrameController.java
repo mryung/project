@@ -37,4 +37,8 @@ public class FrameController extends BasicController {
 		message.put("tree", menuService.findMenu(1));
 		return json(0, "", message);
 	}
+	@RequestMapping(value="/welcome",method=RequestMethod.GET)
+	public String welcome(Map<String,Object> map){
+		return html("welcome", map);
+	}
 }

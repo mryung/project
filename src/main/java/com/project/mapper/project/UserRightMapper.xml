@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.project.UserRightMapper">
+	<resultMap id="BaseResultMap" type="com.project.entity.project.Right" >
+	    <id column="right_id" property="rightId" jdbcType="INTEGER" />
+	    <result column="right_parent_id" property="rightParentId" jdbcType="INTEGER" />
+	    <result column="right_parents" property="rightParents" jdbcType="VARCHAR" />
+	    <result column="right_name" property="rightName" jdbcType="VARCHAR" />
+	    <result column="right_url" property="rightUrl" jdbcType="VARCHAR" />
+	    <result column="right_description" property="rightDescription" jdbcType="VARCHAR" />
+	    <result column="right_code" property="rightCode" jdbcType="VARCHAR" />
+	    <result column="available" property="available" jdbcType="INTEGER" />
+	    <result column="sorted" property="sorted" jdbcType="INTEGER" />
+	    <result column="is_show" property="isShow" jdbcType="TINYINT" />
+	    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+	    <result column="ischecked" property="ischecked" jdbcType="INTEGER" />
+	  </resultMap>
+	<select id="selectUserRight" parameterType="int" resultMap="BaseResultMap">
+  	SELECT tb_right.*,0 as ischecked from tb_user,tb_user_group,tb_group,tb_group_right,tb_right 
+		where tb_user.user_id = #{userid,jdbcType=INTEGER} and tb_user.user_id = tb_user_group.tb_user_id
+		and tb_user_group.tb_group_id = tb_group.group_id and tb_group.group_id = tb_group_right.group_id
+		and tb_group_right.right_id = tb_right.right_id
+	union
+	select tb_right.*,0 as ischecked  from tb_user,tb_user_right,tb_right where tb_user.user_id = #{userid,jdbcType=INTEGER} 
+		and tb_user.user_id = tb_user_right.user_id and tb_user_right.right_id = tb_right.right_id
+	union 
+	select tb_right.*,0 as ischecked  from tb_user,tb_user_role,tb_role,tb_role_right,tb_right
+		where tb_user.user_id = #{userid,jdbcType=INTEGER} and tb_user.user_id = tb_user_role.user_id and tb_user_role.role_id
+		= tb_role.role_id and tb_role.role_id = tb_role_right.role_id and tb_role_right.right_id = tb_right.right_id
+	union
+	SELECT tb_right.*,0 as ischecked from tb_user,tb_user_group,tb_group,tb_group_role,tb_role,tb_role_right,tb_right 
+		where tb_user.user_id = #{userid,jdbcType=INTEGER} and tb_user.user_id = tb_user_group.tb_user_id
+		and tb_user_group.tb_group_id = tb_group.group_id and tb_group.group_id = tb_group_role.group_id and tb_group_role.role_id = tb_role.role_id
+		and tb_role.role_id = tb_role_right.role_id and tb_role_right.right_id = tb_right.right_id
+  </select>
+  <select id="selectAllRight" parameterType="string" resultMap="BaseResultMap">
+  	select tb_right.*,0 as ischecked from tb_right where tb_right.right_id in (${_parameter})
+  </select>
+  
+  <select id="selectRightByUser" parameterType="int" resultMap="BaseResultMap">
+  	select tb_right.*,0 as ischecked from tb_right,tb_user_right where 
+  	tb_right.right_id = tb_user_right.right_id and tb_user_right.user_id = #{userId}
+  </select>
+  
+</mapper>

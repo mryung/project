@@ -9,6 +9,8 @@ public class TbUser {
 
     private String username;
 
+    private String sex;
+
     private String nickname;
 
     private String password;
@@ -30,6 +32,8 @@ public class TbUser {
     private Integer available;
 
     private String salt;
+
+    private Integer deleted;
 
     public Integer getUserId() {
         return userId;
@@ -53,6 +57,14 @@ public class TbUser {
 
     public void setUsername(String username) {
         this.username = username == null ? null : username.trim();
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
     }
 
     public String getNickname() {
@@ -141,5 +153,13 @@ public class TbUser {
 
     public void setSalt(String salt) {
         this.salt = salt == null ? null : salt.trim();
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
     }
 }
