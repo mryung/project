@@ -30,6 +30,7 @@ public class Role extends TbRole{
 	
 	@Override
 	public int hashCode() {
-		return super.hashCode();
+		
+		return super.getRoleId()+super.getRoleName().hashCode();
 	}
 }

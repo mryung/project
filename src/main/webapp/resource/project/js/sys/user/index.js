@@ -6,7 +6,7 @@ $(function() {
 		items : [ {
 			text : '新增',
 			icon : 'add',
-			click : addUserWindow
+			click : addUser
 		}, {
 			line : true
 		}, {
@@ -15,16 +15,10 @@ $(function() {
 			click : editUserWindow
 		}, {
 			line : true
-		}, {
-			text : '查询',
-			icon : 'search',
-			click : serachUser
-		}, {
-			line : true
 		},{
 			text : '查询8',
 			icon : 'search',
-			click : addUser
+			click : editUserWindow
 		}, {
 			line : true
 		}]

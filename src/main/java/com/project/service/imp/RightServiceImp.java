@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -12,6 +13,7 @@ import com.project.entity.TbRightExample;
 import com.project.entity.TbRightExample.Criteria;
 import com.project.entity.project.Right;
 import com.project.mapper.TbRightMapper;
+import com.project.mapper.project.UnionMapper;
 import com.project.mapper.project.UserRightMapper;
 import com.project.service.RightService;
 
@@ -23,6 +25,9 @@ public class RightServiceImp implements RightService {
 	
 	@Autowired
 	private UserRightMapper userRightDao;
+	
+	@Autowired
+	private UnionMapper menuDao;
 	
 	@Override
 	public List<TbRight> listRightTree() {
@@ -67,28 +72,23 @@ public class RightServiceImp implements RightService {
 	public List<Right> listUserRightTree(Integer userId) {
 		int currentUserId = 1; //得到当前用户的id  TODO 以后重session中得到
 		
-		List<Right> rightList = userRightDao.selectUserRight(currentUserId);
-		//得到当前用户的所有权限
-		Iterator<Right> iterator = rightList.iterator();
-		
-		StringBuilder userids = new StringBuilder("0,"); 
-		while (iterator.hasNext()) {
-			Right right = iterator.next();
-			userids.append(right.getRightParents());
-		}
-		userids.append("0");
-		List<Right> allRight = userRightDao.selectAllRight(userids.toString());
+		List<Right> allRight = userRightDao.selectUserRight(currentUserId);
+
 		if(userId != null){
+			//不关联到角色
 			List<Right> userRightList = userRightDao.selectRightByUser(userId);
-			iterator = userRightList.iterator();
+			Iterator<Right> iterator = userRightList.iterator();
 			while(iterator.hasNext()){
 				Right right = iterator.next();
 				int indexOf = allRight.indexOf(right);
 				if(indexOf != -1){
-					allRight.remove(indexOf);
-					right.setIschecked(1);
-					allRight.add(right);
+					allRight.get(indexOf).setIschecked(1);
 				}
+//				if(allRight.contains(right)){
+//					allRight.remove(right);
+//					right.setIschecked(1);
+//					allRight.add(right);
+//				}
 			}
 		}
 		return allRight;

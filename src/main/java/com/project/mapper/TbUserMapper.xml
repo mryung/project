@@ -111,7 +111,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.project.entity.TbUser" >
+  <insert id="insert"  useGeneratedKeys="true" keyProperty="userId"  parameterType="com.project.entity.TbUser" >
     insert into tb_user (user_id, organization_id, username, 
       sex, nickname, password, 
       phone, email, gen_time, 

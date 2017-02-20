@@ -19,19 +19,23 @@ public class MenuServerciImp implements MenuService {
 	@Override
 	public List<TbRight> findMenu(Integer userid) {
 		
-		//查到用户权限的列表目录
-		List<TbRight> rights = unionMapper.selectRight(userid);
-		Iterator<TbRight> iterator = rights.iterator();
+		List<TbRight> menu = unionMapper.selectMenu(userid,"1");
 		
-		StringBuilder userids = new StringBuilder("0,"); 
-		while (iterator.hasNext()) {
-			TbRight right = iterator.next();
-			userids.append(right.getRightParents());
-		}
-		userids.append("0");
-		System.out.println(userids.toString());
-		//查到用户的权限列表
-		return unionMapper.selectMenu(userids.toString());
+		return menu;
+		
+//		//查到用户权限的列表目录
+//		List<TbRight> rights = unionMapper.selectRight(userid);
+//		Iterator<TbRight> iterator = rights.iterator();
+//		
+//		StringBuilder userids = new StringBuilder("0"); 
+//		while (iterator.hasNext()) {
+//			TbRight right = iterator.next();
+//			userids.append(","+right.getRightParents()+right.getRightId());
+//		}
+////		userids.append("0");
+//		System.out.println(userids.toString());
+//		//查到用户的权限列表
+//		return unionMapper.selectMenu(userids.toString());
 	}
 
 }

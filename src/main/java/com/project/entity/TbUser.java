@@ -1,9 +1,15 @@
 package com.project.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TbUser {
-    private Integer userId;
+public class TbUser implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer userId;
 
     private Integer organizationId;
 

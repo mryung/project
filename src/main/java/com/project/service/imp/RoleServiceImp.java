@@ -1,8 +1,9 @@
 package com.project.service.imp;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,13 +35,13 @@ public class RoleServiceImp implements RoleService {
 	
 	//用在给用户分配权限时
 	@Override
-	public List<Role> listUserRoleTree(Integer userId) {
+	public Set<Role> listUserRoleTree(Integer userId) {
 		//得到当前的用户(操作用户)id
 		int cunrrentuserId = 1; //TODO 以后重enchance中得到
-		//得到当前用的的所有角色
-		List<Role> currentUserRole = userRoleDao.selectRoleByUserId(cunrrentuserId);
 		//查询当前用户的所有角色和子角色列表
-		List<Role> currentUserRoles =  new LinkedList<Role>();
+		List<Role> currentUserRole = userRoleDao.selectRoleByUserId(cunrrentuserId);
+		Set<Role> currentUserRoles =  new LinkedHashSet<Role>();
+		
 		Iterator<Role> iterator = currentUserRole.iterator();
 		while (iterator.hasNext()) {
 			Role next = iterator.next();

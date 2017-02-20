@@ -1,5 +1,6 @@
 package com.project.comtroller.sys;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.myproject.message.Message;
 import com.myproject.message.PageInfo;
 import com.myproject.message.Pageable;
+import com.myproject.message.R;
 import com.project.comtroller.BasicController;
 import com.project.entity.TbRight;
 import com.project.service.RightService;
@@ -48,10 +49,10 @@ public class RightController extends BasicController {
 	public Map<String, Object> add(TbRight righ){
 		if(righ.getRightId() != null){
 			//更新
-			return successAjax("更新成功");
+			return R.ok("更新成功");
 		}else{
 			//添加
-			return successAjax("添加成功");
+			return R.ok("添加成功");
 		}
 	}
 	
@@ -64,9 +65,9 @@ public class RightController extends BasicController {
 	@ResponseBody
 	@RequestMapping(value="/tree",method=RequestMethod.POST)
 	public Map<String,Object> listRightTree(){
-		Message message = Message.newMessage();
-		message.put("tree", rightService.listRightTree());
-		return message;
+
+		List<TbRight> tree = rightService.listRightTree();
+		return R.ok().put("tree", tree);
 	}
 	
 	@ResponseBody
@@ -78,9 +79,7 @@ public class RightController extends BasicController {
 		}		
 		PageInfo<TbRight> pageInfo = new PageInfo<TbRight>();
 		pageInfo.setRows(rightService.findRights(rightid+""));
-		Message message = Message.newMessage();
-		message.put("pageInfo", pageInfo);
-		return message;
+		return R.ok().put("pageInfo", pageInfo);
 	}
 	
 	//显示更新页面
@@ -95,6 +94,6 @@ public class RightController extends BasicController {
 	@RequestMapping(value="/delete/{rightid}",method=RequestMethod.GET)
 	public Map<String, Object> delete(Map<String, Object> map,@PathVariable("rightid")Integer rightid){
 		
-		return successAjax("删除成功");
+		return R.ok("删除成功");
 	}
 }

@@ -27,12 +27,13 @@
 		<property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"></property>
 		<property name="contentType" value="${contentType}"/>
 		<property name="cache" value="${cache}"></property>
-		<property name="prefix" value="${prefix}"></property>
+		<property name="prefix" value=""></property>
 		<property name="suffix" value="${suffix}"></property>
+		<property name="requestContextAttribute" value="rc"></property>
 	</bean>
 	<bean id="freemarkerConfig"
         class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <property name="templateLoaderPath" value=""></property>
+        <property name="templateLoaderPath" value="${prefix}"></property>
       	<property name="defaultEncoding" value="${defaultEncoding}"></property>
     </bean>
 	

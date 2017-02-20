@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.project.mapper.project.UnionMapper" >
-  <select id="selectRight" parameterType="int" resultMap="com.project.mapper.TbRightMapper.BaseResultMap">
-  	SELECT tb_right.* from tb_user,tb_user_group,tb_group,tb_group_right,tb_right 
+  <select id="selectMenu" parameterType="int" resultMap="com.project.mapper.TbRightMapper.BaseResultMap">
+  	
+  	<!-- 多余的关联表要去掉，在本示例中不需要关联的tb_user 表，可以直接到 -->
+  	select tb_right.* from tb_user_right,tb_right where tb_user_right.user_id = #{userid,jdbcType=INTEGER}
+		and tb_user_right.right_id = tb_right.right_id and tb_right.available = 1 and tb_right.deleted = 0  and tb_right.is_show in (${isshow})
+		union 
+	select tb_right.* from tb_user_role,tb_role,tb_role_right,tb_right
+		where tb_user_role.user_id = #{userid,jdbcType=INTEGER} and tb_role.available = 1  and tb_user_role.role_id
+		= tb_role.role_id and tb_role.role_id = tb_role_right.role_id 
+		and tb_role_right.right_id = tb_right.right_id and tb_right.available = 1  and tb_right.deleted = 0  and tb_right.is_show in (${isshow})
+  </select>
+  <select id="selectRight" parameterType="java.lang.String"  resultMap="com.project.mapper.TbRightMapper.BaseResultMap">
+  	select tb_right.* from tb_right where is_show = 1
+  	<trim prefix=" and tb_right.right_id in (" suffix=")" suffixOverrides=",">
+	  	<if test="_parameter != null and _parameter != ''">
+			${_parameter}
+	  	</if>
+  	</trim>
+  	order by sorted
+  </select>
+</mapper>
+
+<!-- 
+							给出菜单
+	SELECT tb_right.* from tb_user,tb_user_group,tb_group,tb_group_right,tb_right 
 		where tb_user.user_id = #{userid,jdbcType=INTEGER} and tb_user.user_id = tb_user_group.tb_user_id
 		and tb_user_group.tb_group_id = tb_group.group_id and tb_group.group_id = tb_group_right.group_id
 		and tb_group_right.right_id = tb_right.right_id
@@ -18,14 +41,4 @@
 		where tb_user.user_id = #{userid,jdbcType=INTEGER} and tb_user.user_id = tb_user_group.tb_user_id
 		and tb_user_group.tb_group_id = tb_group.group_id and tb_group.group_id = tb_group_role.group_id and tb_group_role.role_id = tb_role.role_id
 		and tb_role.role_id = tb_role_right.role_id and tb_role_right.right_id = tb_right.right_id
-  </select>
-  <select id="selectMenu" parameterType="java.lang.String"  resultMap="com.project.mapper.TbRightMapper.BaseResultMap">
-  	select tb_right.* from tb_right where is_show = 1
-  	<trim prefix=" and tb_right.right_id in (" suffix=")" suffixOverrides=",">
-	  	<if test="_parameter != null and _parameter != ''">
-			${_parameter}
-	  	</if>
-  	</trim>
-  	order by sorted
-  </select>
-</mapper>
+ -->

@@ -1,5 +1,6 @@
 package com.project.comtroller.sys;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.myproject.message.Message;
 import com.myproject.message.PageInfo;
 import com.myproject.message.Pageable;
+import com.myproject.message.R;
 import com.project.comtroller.BasicController;
 import com.project.entity.TbOrganization;
 import com.project.service.OrganizationService;
@@ -25,9 +26,9 @@ public class OrganizationController extends BasicController{
 	@ResponseBody
 	@RequestMapping(value="/tree",method=RequestMethod.POST)
 	public Map<String,Object> listTree(Map<String,Object> map){
-		Message message = Message.newMessage();
-		message.put("tree", organizationService.listTree());
-		return message;
+
+		List<TbOrganization> tree = organizationService.listUserOrgTree(null);
+		return R.ok().put("tree", tree);
 	}
 	
 	@RequestMapping(value="/index")
@@ -39,10 +40,9 @@ public class OrganizationController extends BasicController{
 	@ResponseBody
 	@RequestMapping(value="/list",method=RequestMethod.POST)
 	public Map<String,Object> listGroup(Pageable pageable){
-		Message message = Message.newMessage();
+
 		PageInfo<TbOrganization> pageInfo = new PageInfo<TbOrganization>();
 		pageInfo.setRows(organizationService.listOrgByPage(pageable.getPage(),pageable.getPagesize()));
-		message.put("pageInfo", pageInfo);
-		return json(0, "", message);
+		return R.ok().put("pageInfo", pageInfo);
 	}
 }

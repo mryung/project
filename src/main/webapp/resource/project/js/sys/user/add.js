@@ -59,12 +59,6 @@ $(function() {
 		parentIDFieldName : 'roleParentId',
 		parms :[
 		        {name:"userId",value:userId}],
-		isChecked: function(node){
-			alert("hello");
-		},
-		ischecked: function(node){
-			alert("hello1");
-		}
 	});
 	right = $("#rightTree").ligerTree({
 			url : serverpath + "/sys/user/rightTree?format=json",
@@ -75,6 +69,7 @@ $(function() {
 			nodeWidth : 300,
 			idFieldName : 'rightId',
 			textFieldName: 'rightName',
+			enabledCompleteCheckbox:false,
 			parentIDFieldName : 'rightParentId',
 			parms :[
 			        {name:"userId",value:userId}],
@@ -172,6 +167,9 @@ function submit() {
 	
 	$("#roles").val(getRoles());
 	$("#rights").val(getRights());
+	
+	alert($("#roles").val());
+	alert($("#rights").val());
 	var url = serverpath + "/sys/user/save";
 	var waitManager = $.ligerDialog.waitting('正在保存,请稍候.......');
 	$.ajax({
@@ -180,12 +178,12 @@ function submit() {
 		data : $("#form").serialize(),
 		dataType : 'json',
 		success : function(data) {
-			var msg = data.msg;
+			var msg = data;
 			waitManager.close();
-			$.ligerDialog.alert(msg.context);
+			$.ligerDialog.alert(msg.msg);
 			if(msg.code=="0"){
 				if (data.usrId != null) {
-					usrId = usrId;
+					userId = userId;
 					loadData();
 				}
 			}
@@ -202,7 +200,7 @@ function getRoles() {
 	var notes = role.getChecked();
 	for (var i = 0; i < notes.length; i++) {
 		if (notes[i].data.roleId != null)
-			rolids += "," + notes[i].data.roleId;
+			roleids += "," + notes[i].data.roleId;
 	}
 	return roleids;
 }

@@ -8,14 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.myproject.message.Message;
 import com.myproject.message.PageInfo;
-import com.myproject.message.Pageable;
+import com.myproject.message.R;
 import com.project.comtroller.BasicController;
 import com.project.entity.TbRole;
 import com.project.service.RoleService;
-
-import net.sf.jsqlparser.schema.Table;
 
 /**
  * 
@@ -42,10 +39,9 @@ public class RoleController extends BasicController{
 	@ResponseBody
 	@RequestMapping(value="/list",method=RequestMethod.POST)
 	public Map<String,Object> listRole(){
-		Message message = Message.newMessage();
+		
 		PageInfo<TbRole> pageInfo = new PageInfo<TbRole>();
 		pageInfo.setRows(roleService.findRoleList());
-		message.put("pageInfo", pageInfo);
-		return message;
+		return R.ok().put("pageInfo", pageInfo);
 	}
 }

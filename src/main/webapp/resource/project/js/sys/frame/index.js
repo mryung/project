@@ -14,7 +14,7 @@ $(function() {
 	tab = liger.get("layoutcenter");
 
 	tree = $("#tree").ligerTree({
-		url :serverpath+"/sys/frame/menu",
+		url :serverpath+"/menu",
 		ajaxType : "POST",
 		jsonField : "tree",
 		slide : false,
@@ -44,7 +44,7 @@ $(function() {
 		tabid : 0,
 		text : "我的主页",
 		showClose : false,
-		url : serverpath + "/sys/frame/welcome"
+		url : serverpath + "/welcome"
 	});
 });
 

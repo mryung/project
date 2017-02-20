@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.myproject.message.Message;
 import com.myproject.message.PageInfo;
 import com.myproject.message.Pageable;
+import com.myproject.message.R;
 import com.project.comtroller.BasicController;
 import com.project.entity.TbGroup;
 import com.project.service.GroupService;
@@ -40,11 +40,10 @@ public class GroupController extends BasicController {
 	@ResponseBody
 	@RequestMapping(value="/list",method=RequestMethod.POST)
 	public Map<String,Object> listGroup(Pageable pageable){
-		Message message = Message.newMessage();
+
 		PageInfo<TbGroup> pageInfo = new PageInfo<TbGroup>();
 		pageInfo.setRows(groupService.listGroupByPage(pageable.getPage(),pageable.getPagesize()));
-		message.put("pageInfo", pageInfo);
-		return json(0, "", message);
+		return R.ok().put("pageInfo", pageInfo);
 	}
 	
 }
