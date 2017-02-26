@@ -21,7 +21,11 @@ $(function() {
 			click : editUserWindow
 		}, {
 			line : true
-		}]
+		}, {
+			text : '删除',
+			icon : 'delete',
+			click : deleteUser
+		},]
 	});
 	$("#layout").ligerLayout({
 		leftWidth : 200
@@ -205,6 +209,34 @@ function addUser(){
 			} ],
 			modal : true,
 			isResize : true
+		});
+	}
+}
+
+function deleteUser(){
+	if(userId == null || userId == ''){
+		$.ligerDialog.warn("请选择删除的用户！");
+		return false;
+	}
+	var r = confirm("你确定要删除当前用户吗");
+	if(r == true){
+		$.ajax({
+			url: serverpath + "/sys/user/delete/"+userId,
+			type: "post",
+			success: function(data){
+				
+				if(data.code == 1){
+					//删除成功
+					userId = ''; //重置userid
+					$.ligerDialog.alert(data.msg);
+					refreshGrid();
+				}else{
+					$.ligerDialog.warn(data.msg);
+				}
+			},
+			error : function() {
+				$.ligerDialog.error('删除失败！');
+			}
 		});
 	}
 }

@@ -2,7 +2,10 @@ package com.project.service;
 
 import java.util.List;
 
+import com.myproject.message.PageInfo;
+import com.myproject.message.Pageable;
 import com.project.entity.TbOrganization;
+import com.project.entity.TbUser;
 
 public interface OrganizationService {
 
@@ -12,4 +15,10 @@ public interface OrganizationService {
 	List<TbOrganization> listUserOrgTree(Integer orgId);
 
 	TbOrganization findOrgById(Integer orgId);
+
+	PageInfo<TbUser> findOrgUsers(Pageable pageable, Integer orgid);
+
+	int  saveOrg(TbOrganization org);
+
+	int deleteOrg(Integer orgid);
 }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- redis配置  以后的数据用配置文件来配置-->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<!-- 最大连接数  -->
+		<property name="maxTotal" value="10"></property>
+	</bean>
+	<!-- (final GenericObjectPoolConfig poolConfig, final String host, int port,
+      int timeout, final String password) -->
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig"></constructor-arg>
+		<constructor-arg index="1" value="127.0.0.1"  name="host" type="java.lang.String"></constructor-arg>
+		<constructor-arg index="2" value="6379" name="port" type="int"></constructor-arg>
+		<!-- 采用默认值 
+		<constructor-arg index="3" value="2000"></constructor-arg>-->
+		<!-- 设置密码 
+		<constructor-arg index="4" value=""></constructor-arg>-->
+	</bean>
+	
+	<!-- 以后改为分布式时，用redisSessionDao来代替  -->
+	<bean id="sessionDao" class="com.project.security.shiro.SessionRedisDao">
+		<property name="sessionIdGenerator">
+			<bean class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"></bean>
+		</property>
+	</bean> 
+	
+	<!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- session的失效时长，单位毫秒 -->
+        <property name="globalSessionTimeout" value="6000"/>
+        <!-- 删除失效的session -->
+        <property name="deleteInvalidSessions" value="true"/>
+		<!-- 配置sessionDao session持久化方法      -->  
+        <property name="sessionDAO" ref="sessionDao"></property> 
+    </bean>
+	
+	<!-- 缓存管理器 -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+    	<!-- 配置缓存位置 -->
+    	<property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"/>
+    </bean>
+	
+	<!-- 凭证匹配器 -->
+	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+		<property name="hashAlgorithmName" value="SHA1" />
+		<property name="hashIterations" value="2" />
+	</bean>
+	<bean id="realm" class="com.project.security.shiro.CustomRealm">
+		<property name="credentialsMatcher" ref="credentialsMatcher"></property>
+	</bean>
+	
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!-- 会话管理器 -->
+		<property name="sessionManager" ref="sessionManager"></property>
+		<!-- 注入缓存管理器 -->
+		<property name="cacheManager" ref="cacheManager"/>
+		<!-- 注入realm -->
+		<property name="realm" ref="realm"></property>
+	</bean>
+	
+	<bean id="formAuthenticationFilter" class="com.project.security.shiro.CustomFormAuthenticationFilter"></bean>
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"></property>
+		<!-- 登录url -->
+		<property name="loginUrl" value="/login.html"></property>
+		<!-- 未授权url -->
+		<property name="unauthorizedUrl" value="/unauthorized.html"></property>
+		<!-- 登录成功 -->
+		<property name="successUrl" value="/project/index"></property>
+		<property name="filterChainDefinitions">
+			<value>
+				/logout = logout
+				/unauthorized.html = anon
+				/resource/** = anon
+				/statics/** = anon
+				/** = authc
+			</value>
+		</property>
+		<!-- 自定义filter配置 -->
+		<property name="filters">
+			<map>
+				<!-- 将自定义 的FormAuthenticationFilter注入shiroFilter中-->
+				<entry key="authc" value-ref="formAuthenticationFilter" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- AOP式方法级权限检查  -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+    	<property name="securityManager" ref="securityManager"/>
+	</bean>
+</beans>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.project.UserOrgMapper">
+	<resultMap type="com.project.entity.TbUser" id="orgUserResultMap">
+		<id column="user_id" property="userId"/>
+		<result column="user_name" property="username"/>
+		<result column="email" property="email"/>
+		<result column="phone" property="phone"/>
+	</resultMap>
+
+	<select id="countOrgUser" parameterType="int" resultType="int">
+		select count(user_id) from tb_user where organization_id = #{orgid}
+	</select>
+	
+	<select id="selectOrgUser" resultMap="orgUserResultMap">
+		select u.user_id,u.username,u.email,u.phone from tb_user u where organization_id = #{orgid}
+	</select>
+	
+</mapper>

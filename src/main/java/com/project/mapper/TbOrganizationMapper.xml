@@ -104,7 +104,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.project.entity.TbOrganization" >
+  <insert id="insert"   useGeneratedKeys="true" keyProperty="orgId"   parameterType="com.project.entity.TbOrganization" >
     insert into tb_organization (org_id, org_parent_id, org_name, 
       org_gen_time, org_description, org_parents, 
       available, org_code, deleted
@@ -114,7 +114,7 @@
       #{available,jdbcType=TINYINT}, #{orgCode,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.project.entity.TbOrganization" >
+  <insert id="insertSelective"  useGeneratedKeys="true" keyProperty="orgId"  parameterType="com.project.entity.TbOrganization" >
     insert into tb_organization
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="orgId != null" >

@@ -8,24 +8,42 @@ $(function() {
 		items : [ {
 			text : '新增',
 			icon : 'add',
-			click : addUserWindow
+			click : addOrgWindow
 		}, {
 			line : true
 		}, {
 			text : '修改',
 			icon : 'edit',
-			click : editUserWindow
+			click : editOrgWindow
 		}, {
 			line : true
 		}, {
-			text : '查询',
-			icon : 'search',
-			click : serachUser
+			text : '删除',
+			icon : 'delete',
+			click : deleteOrg
 		}, {
 			line : true
 		}]
 	});
-
+	$("#layout").ligerLayout({
+		leftWidth : 200
+	});
+	tree = $("#tree").ligerTree({
+		url : serverpath + "/sys/org/tree",
+		ajaxType : "POST",
+		jsonField : "tree",
+		idFieldName : 'orgId',
+		textFieldName: 'orgName',
+		parentIDFieldName : 'orgParentId',
+		slide : true,
+		checkbox : false,
+		onClick : function(note) {
+			orgId=note.data.orgId;
+			refreshGrid();
+		},
+		nodeWidth : 200
+	});
+	
 	grid = $("#maingrid").ligerGrid({
 		height : '100%',
 		columns : [ {
@@ -79,64 +97,78 @@ $(function() {
 		pageSize : 100,
 		method : "POST",
 		onDblClickRow : function(data, rowindex, rowobj) {
-			usrId = data.usrid;
-			dptId = data.usrdept;
-			orgId = data.usrorgan;
-			editUserWindow();
+			orgId = data.orgId;
+			editOrgWindow();
 		},
 		onSelectRow : function(data, rowindex, rowobj) {
-			usrId = data.usrid;
-			dptId = data.usrdept;
-			orgId = data.usrorgan;
+			orgId = data.orgId;
 		},
 		rownumbers : true
 	});
+	
 	$("#sysmenu").each(function() {
 		$(this).height($(this).parent().height() - $(this).prev().height());
 	});
 });
+//刷新树
+function refreshTree() {
+	tree.refreshTree();
+}
 // 刷新列表
 function refreshGrid() {
+	if(orgId != ''||orgId != null){
+		grid.setParm("orgid", orgId);
+	}
 	grid.reload();
 }
 // 创建子窗口 用于修改或新增
-function addUserWindow() {
-	if (dptId == "") {
-		$.ligerDialog.warn('请选择用户部门');
+function addOrgWindow() {
+	openWindow("");
+}
+function editOrgWindow(){
+	if(orgId == null || orgId == ''){
+		$.ligerDialog.warn('请选择部门');
 		return false;
 	}
-	openWindow("", dptId, orgId);
+	openWindow(orgId);
 }
-function editUserWindow(){
-	if (usrId == "") {
-		$.ligerDialog.warn('请选择修改用户');
+
+function deleteOrg(){
+	if(orgId == null || orgId == ''){
+		$.ligerDialog.warn('请选择部门');
 		return false;
 	}
-	openWindow(usrId, dptId, orgId);
+	var url = serverpath + "/sys/org/delete/"+orgId;
+	$.post(url,function(data){
+		if(data.code == 1){
+			refreshTree();
+			$.ligerDialog.warn(data.msg);
+			
+		}else{
+			$.ligerDialog.warn("删除出错!");
+		}
+	})
+	
 }
+
 //创建子窗口 用于修改或新增
-function openWindow(usrid, dptid, orgid) {
-	var url = serverpath + '/sys/user/add?='+usrid+
-			'&dptId='+dptid+"&orgId="+orgid;
-	var title = "用户信息【新增】";
-	if (usrid != "") {
-		title = "用户信息【修改】";
+function openWindow(orgId) {
+	var url = serverpath + '/sys/org/add?orgid='+orgId;
+	var title = "部门信息【新增】";
+	if (orgId != "") {
+		title = "部门信息【修改】";
 	}
 	$.ligerDialog.open({
 		url : url,
-		width : 600,
-		height : 450,
+		width : 500,
+		height : 350,
 		name : "iFrame",
 		title : title,
 		buttons : [ {
 			text : '保存',
 			onclick : function(item, dialog) {
+				refreshTree();
 				iFrame.submit();
-			}
-		}, {
-			text : '重置密码',
-			onclick : function(item, dialog) {
-				iFrame.resetPassword();
 			}
 		}, {
 			text : '取消',
@@ -147,43 +179,4 @@ function openWindow(usrid, dptid, orgid) {
 		modal : false,
 		isResize : true
 	});
-}
-//查询
-function serachUser() {
-	var url = serverpath + '/dba/sql/add?tabId=15';
-	var title = "用户信息【查询】";
-	var m = $.ligerDialog.open({
-		url : url,
-		width : 560,
-		height : 420,
-		name : "iQuery",
-		title : title,
-		buttons : [ {
-			text : '查询',
-			onclick : function(item, dialog) {
-				setQueryParms();
-				dialog.close();
-			}
-		}, {
-			text : '退出',
-			onclick : function(item, dialog) {
-				dialog.close();
-			}
-		} ],
-		modal : true,
-		isResize : true
-	});
-}
-function setQueryParms() {
-	var inputs = $(window.frames["iQuery"].document).find("input");
-	$(inputs).each(function(i){
-		if((this.name).indexOf("filters")==0&&
-			this.type!="radio"){
-			grid.setParm(this.name, this.value);
-		}else if((this.name).indexOf("filters")==0&&
-			this.type=="radio"&&this.checked==true){
-			grid.setParm(this.name, this.value);
-		}
-	});
-	grid.reload();
 }

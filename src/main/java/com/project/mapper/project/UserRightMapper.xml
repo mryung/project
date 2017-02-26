@@ -34,14 +34,15 @@
   	select tb_right.*,0 as ischecked from tb_right,tb_user_right where 
   	tb_right.right_id = tb_user_right.right_id and tb_user_right.user_id = #{userId}
   </select>
-  	
   
-	<delete id="deleteUserRoles"  parameterType="int">
+	<delete id="deleteUserRights"  parameterType="int">
 		delete from tb_user_right where tb_user_right.user_id = ${userid}
-		<foreach collection="rightids" index="index" item="item" open=" and tb_user_right.right_id in ("
-		    separator="," close=")">
-		   #{item}
-	  </foreach>
+		<if test="rightids != null">
+			<foreach collection="rightids" index="index" item="item" open=" and tb_user_right.right_id in ("
+			    separator="," close=")">
+			   #{item}
+		  </foreach>
+		</if>
 	</delete>
 </mapper>
 

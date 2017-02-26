@@ -1,31 +1,47 @@
-var rightid = "";
-var usrId = "";
-var dptId = "";
-var orgId = "";
 var tree = null;
+var roleId = "";
+var roleParentId = "";
 $(function() {
 	$("#toptoolbar").ligerToolBar({
 		items : [ {
 			text : '新增',
 			icon : 'add',
-			click : addUserWindow
+			click : addRoleWindow
 		}, {
 			line : true
 		}, {
 			text : '修改',
 			icon : 'edit',
-			click : editUserWindow
+			click : editRoleWindow
 		}, {
 			line : true
 		}, {
 			text : '查询',
 			icon : 'search',
-			click : serachUser
+			click : deleteRole
 		}, {
 			line : true
 		}]
 	});
-
+	$("#layout").ligerLayout({
+		leftWidth : 200
+	});
+	tree = $("#tree").ligerTree({
+		url : serverpath + "/sys/role/tree",
+		ajaxType : "POST",
+		jsonField : "tree",
+		idFieldName : 'roleId',
+		textFieldName: 'roleName',
+		parentIDFieldName : 'roleParentId',
+		slide : true,
+		checkbox : false,
+		onClick : function(note) {
+			roleId=note.data.roleId;
+			roleParentId=note.data.roleParentId;
+			refreshGrid();
+		},
+		nodeWidth : 200
+	});
 	grid = $("#maingrid").ligerGrid({
 		height : '100%',
 		columns : [ {
@@ -79,15 +95,11 @@ $(function() {
 		pageSize : 100,
 		method : "POST",
 		onDblClickRow : function(data, rowindex, rowobj) {
-			usrId = data.usrid;
-			dptId = data.usrdept;
-			orgId = data.usrorgan;
-			editUserWindow();
+			roleId = data.roleId;
+			editRoleWindow();
 		},
 		onSelectRow : function(data, rowindex, rowobj) {
-			usrId = data.usrid;
-			dptId = data.usrdept;
-			orgId = data.usrorgan;
+			roleId = data.roleId;
 		},
 		rownumbers : true
 	});
@@ -97,29 +109,43 @@ $(function() {
 });
 // 刷新列表
 function refreshGrid() {
+	if(roleId != ''||roleId != null){
+		grid.setParm("roleId", roleId);
+	}else{
+		return false;
+	}
 	grid.reload();
 }
 // 创建子窗口 用于修改或新增
-function addUserWindow() {
-	if (dptId == "") {
-		$.ligerDialog.warn('请选择用户部门');
-		return false;
-	}
-	openWindow("", dptId, orgId);
+function addRoleWindow() {
+	openWindow("");
 }
-function editUserWindow(){
-	if (usrId == "") {
-		$.ligerDialog.warn('请选择修改用户');
+function deleteRole(){
+	if (roleId == null || roleId == "") {
+		$.ligerDialog.warn('请删除的角色');
 		return false;
 	}
-	openWindow(usrId, dptId, orgId);
+	var url = serverpath + "/sys/role/delete/"+roleId;
+	$.post(url,function(data){
+		if(data.code == 0){
+			$.ligerDialog.alert(msg.msg);
+		}else{
+			$.ligerDialog.alert("删除出现错误！");
+		}
+	})
+}
+function editRoleWindow(){
+	if (roleId == null || roleId == "") {
+		$.ligerDialog.warn('请选择修改角色');
+		return false;
+	}
+	openWindow(roleId);
 }
 //创建子窗口 用于修改或新增
-function openWindow(usrid, dptid, orgid) {
-	var url = serverpath + '/sys/user/add?='+usrid+
-			'&dptId='+dptid+"&orgId="+orgid;
+function openWindow(roleId) {
+	var url = serverpath + '/sys/role/add?roleId='+(roleId == null? '':roleId);
 	var title = "用户信息【新增】";
-	if (usrid != "") {
+	if (roleId != "" || roleId != null) {
 		title = "用户信息【修改】";
 	}
 	$.ligerDialog.open({

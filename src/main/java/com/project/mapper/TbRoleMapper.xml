@@ -105,7 +105,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.project.entity.TbRole" >
+  <insert id="insert"  useGeneratedKeys="true" keyProperty="roleId"   parameterType="com.project.entity.TbRole" >
     insert into tb_role (role_id, role_parent_id, role_parents, 
       role_name, role_gen_time, role_description, 
       available, role_code, sorted, 
@@ -115,7 +115,7 @@
       #{available,jdbcType=INTEGER}, #{roleCode,jdbcType=VARCHAR}, #{sorted,jdbcType=TINYINT}, 
       #{deleted,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.project.entity.TbRole" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="roleId"  parameterType="com.project.entity.TbRole" >
     insert into tb_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="roleId != null" >

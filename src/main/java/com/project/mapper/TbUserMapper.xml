@@ -125,7 +125,7 @@
       #{loginCount,jdbcType=INTEGER}, #{available,jdbcType=INTEGER}, #{salt,jdbcType=VARCHAR}, 
       #{deleted,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.project.entity.TbUser" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="userId" parameterType="com.project.entity.TbUser" >
     insert into tb_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >

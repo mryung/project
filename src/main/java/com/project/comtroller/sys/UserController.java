@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -78,7 +79,6 @@ public class UserController extends BasicController{
 	@ResponseBody
 	@RequestMapping(value="/roleTree",method=RequestMethod.POST)
 	public Map<String,Object> RoleTree(Integer userId){
-
 		Set<Role> tree = userService.listUserRoleTree(userId);
 		return R.ok().put("tree",tree);
 	}
@@ -95,7 +95,13 @@ public class UserController extends BasicController{
 	@RequestMapping(value="/userData",method=RequestMethod.POST)
 	public Map<String,Object> userData(Integer userId){
 		User user = userService.selectUserById(userId);
-//		user.setUserId(userId);
 		return R.ok().put("user",user);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/delete/{userid}",method=RequestMethod.POST)
+	public Map<String,Object> deleteUser(@PathVariable("userid") Integer userid){
+		int flag = userService.deleteUser(userid);
+		return R.ok("删除成功");
 	}
 }

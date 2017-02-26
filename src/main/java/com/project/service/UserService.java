@@ -25,5 +25,7 @@ public interface UserService {
 	public Set<Role>  getUserRoleChildList(Integer userId);
 
 	public List<Right> listUserRightTree(Integer userId);
+
+	public int deleteUser(Integer userid);
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.project.entity.project.Right;
+import com.project.entity.project.User;
 
 public interface UserRightMapper {
 	public List<Right> selectUserRight(Integer userid);

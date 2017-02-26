@@ -15,6 +15,7 @@ import com.myproject.message.Pageable;
 import com.myproject.message.R;
 import com.project.comtroller.BasicController;
 import com.project.entity.TbRight;
+import com.project.entity.project.User;
 import com.project.service.RightService;
 
 /**
@@ -34,15 +35,11 @@ public class RightController extends BasicController {
 	private RightService rightService;
 	
 	@RequestMapping(value="/add",method=RequestMethod.GET)
-	public String add(Map<String, Object> map,Integer id){
-		
-		if(id == null){
-			map.put("rightid", null);
-		}else{
-			map.put("rightid", id);
-		}
+	public String add(Map<String, Object> map,Integer rightid){
+		map.put("rightid", rightid);
 		return html("/sys/right/add", map);
 	}
+	
 	
 	//更新或者添加
 	@RequestMapping(value="/add",method=RequestMethod.POST)
@@ -71,15 +68,29 @@ public class RightController extends BasicController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/data",method=RequestMethod.POST)
+	@RequestMapping(value="/datas",method=RequestMethod.POST)
 	public Map<String, Object> data(Pageable pageable,Integer rightid){
 		
 		if(rightid == null){
-			rightid = 1;
+			return null;
 		}		
 		PageInfo<TbRight> pageInfo = new PageInfo<TbRight>();
-		pageInfo.setRows(rightService.findRights(rightid+""));
+		pageInfo.setRows(rightService.findRightsByParentid(pageable, rightid));
 		return R.ok().put("pageInfo", pageInfo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/data",method=RequestMethod.POST)
+	public Map<String, Object> data(Integer rightid){
+		
+		if(rightid == null){
+			return null;
+		}
+		R r = R.ok();
+		TbRight right = rightService.findRightById(rightid);
+		r.put("data", right);
+		r.put("parent", rightService.findRightById(right.getRightParentId()));
+		return r;
 	}
 	
 	//显示更新页面
@@ -95,5 +106,36 @@ public class RightController extends BasicController {
 	public Map<String, Object> delete(Map<String, Object> map,@PathVariable("rightid")Integer rightid){
 		
 		return R.ok("删除成功");
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/save",method=RequestMethod.POST)
+	public Map<String,Object> save(TbRight right){
+		
+		rightService.saveRight(right);
+		
+		return R.ok("保存成功");
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/user",method=RequestMethod.POST)
+	public Map<String,Object> user(Pageable pageable , Integer	rightid){
+		
+		if(rightid == null){
+			return null;
+		}
+		List<User> list = rightService.selectUserListByRightid(pageable, rightid);
+		return R.ok().put("user", list);
+	}
+	@ResponseBody
+	@RequestMapping(value="/role",method=RequestMethod.POST)
+	public Map<String,Object> role(Pageable pageable , Integer	rightid){
+		
+		if(rightid == null){
+			return null;
+		}
+		List<TbRight> list = rightService.selectRoleListByRightid(pageable, rightid);
+		return R.ok().put("role", list);
 	}
 }

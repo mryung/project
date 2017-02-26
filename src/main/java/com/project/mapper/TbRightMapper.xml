@@ -106,7 +106,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.project.entity.TbRight" >
+  <insert id="insert"   useGeneratedKeys="true" keyProperty="rightId"  parameterType="com.project.entity.TbRight" >
     insert into tb_right (right_id, right_parent_id, right_parents, 
       right_name, right_url, right_description, 
       right_code, available, sorted, 
@@ -116,7 +116,7 @@
       #{rightCode,jdbcType=VARCHAR}, #{available,jdbcType=INTEGER}, #{sorted,jdbcType=INTEGER}, 
       #{isShow,jdbcType=TINYINT}, #{deleted,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.project.entity.TbRight" >
+  <insert id="insertSelective"   useGeneratedKeys="true" keyProperty="rightId"   parameterType="com.project.entity.TbRight" >
     insert into tb_right
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="rightId != null" >

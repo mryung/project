@@ -195,7 +195,6 @@ public class UserServiceImp implements UserService {
 		// 得到当前用户的角色
 		// 得到当前的用户(操作用户)id
 		int cunrrentuserId = SessionUtil.getUserid();
-		
 		// 查询当前用户的所有角色和子角色列表
 		Set<Role> currentUserRoles = getUserRoleChildList(cunrrentuserId);
 		if (userId != null) {
@@ -229,6 +228,7 @@ public class UserServiceImp implements UserService {
 			List<Role> list = userRoleDao.selectRoleByParents(next.getRoleParents());
 			userRoles.addAll(list);
 		}
+		userRoles.addAll(userRole);
 		return userRoles;
 	}
 
@@ -251,6 +251,17 @@ public class UserServiceImp implements UserService {
 			}
 		}
 		return allRight;
+	}
+
+	@Override
+	public int deleteUser(Integer userid) {
+		//删除用户和权限
+		userRoleDao.deleteUserRoles(userid, null);
+		//删除用户和角色关联表
+		userRightDao.deleteUserRights(userid, new LinkedList<>());
+		//删除用户本身信息
+		userDao.deleteByPrimaryKey(userid);
+		return 0;
 	}
 
 }

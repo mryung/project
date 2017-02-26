@@ -203,6 +203,14 @@
 	    <classifier>jdk15</classifier>
 	</dependency>
 	
+	<!-- redis 开发包 -->
+	<dependency>
+	    <groupId>redis.clients</groupId>
+	    <artifactId>jedis</artifactId>
+	    <version>2.9.0</version>
+	</dependency>
+	
+	
   </dependencies>
   <build>
   	<plugins>

@@ -1,0 +1,125 @@
+var pwin = window.parent;
+var tree = null;
+var grid = null;
+$(function() {
+	$("#navtab1").ligerTab();
+	rolorgannameManager = $("#rolorganname").ligerTextBox({
+		currency : false
+	});
+	rolcodeManager = $("#rolcode").ligerTextBox({
+		currency : false
+	});
+	rolnameManager = $("#rolname").ligerTextBox({
+		currency : false
+	});
+	loadData();
+	tree = $("#tree").ligerTree({
+		url : serverpath + "/sys/right/role?format=json&date=" + new Date(),
+		ajaxType : "get",
+		jsonField : "tree",
+		slide : true,
+		checkbox : true,
+		nodeWidth : 300,
+		idFieldName : 'id',
+		parentIDFieldName : 'pid',
+		parms :[{name:"rightid",value:rightid}]
+	});
+	grid = $("#grid").ligerGrid({
+		columns : [ {
+			display : 'ID',
+			name : 'usrid',
+			align : 'left',
+			width : 100,
+			hide : true,
+			minWidth : 60
+		}, {
+			display : '用户账号',
+			name : 'usraccount',
+			width : 100,
+			align : 'left'
+		}, {
+			display : '用户名称',
+			name : 'usrname',
+			width : 100,
+			align : 'left',
+		}, {
+			display : '所属部门',
+			name : 'usrdeptname',
+			width : 120,
+			align : 'left',
+			minWidth : 100
+		}, {
+			display : '所属机构',
+			name : 'usrorganname',
+			width : 200,
+			align : 'left',
+			minWidth : 100
+		}],
+		url : serverpath + "/sys/right/user?rightid=" + rightid,
+		method : "post",
+		height:280,
+		usePager : false,
+		dataAction : 'server',
+		jsonField : "pageInfo"
+	});	
+});
+function loadData() {
+	
+	if(rightid == null || rightid == ""){
+		return false;
+	}
+	$.ajax({
+		url : serverpath + "/sys/right/data?rightid=" + rightid,
+		type : 'post',
+		dataType : 'json',
+		success : function(data) {
+			var role = data.role;
+			$("#token").val(data.token);
+			$("#rolid").val(role.rolid);
+			$("#rolcode").val(role.rolcode);
+			$("#rolname").val(role.rolname);
+			$("#rolremark").val(role.rolremark);
+			$("#rolorgan").val(role.rolorgan);
+			$("#rolorganname").val(role.rolorganname);
+		},
+		error : function() {
+			$.ligerDialog.error("查询失败!");
+		}
+	});
+}
+// 保存
+function submit() {
+	var url = serverpath + "/sys/role/save?format=json&date=" + new Date();
+	$("#modules").val(getModules());
+	var waitManager=$.ligerDialog.waitting('正在保存,请稍候.......');
+	$.ajax({
+		url : url,
+		type : "post",
+		data : $("#form1").serialize(),
+		dataType : 'json',
+		success : function(data) {
+			var msg=data.msg;
+			$.ligerDialog.alert(msg.context);
+			waitManager.close();
+			if (data.rolId != null) {
+				rolId = data.rolId;
+				loadData();
+				pwin.refreshGrid();
+			}
+		},
+		error : function() {
+			$.ligerDialog.error('保存失败!');
+			waitManager.close();
+		}
+	});
+}
+//获取树形id
+function getModules() {
+	var modids = "0";
+	var notes = tree.getChecked();
+	for (var i = 0; i < notes.length; i++) {
+		if (notes[i].data.twoid != null)
+			modids += "," + notes[i].data.twoid;
+	}
+	return modids;
+}
