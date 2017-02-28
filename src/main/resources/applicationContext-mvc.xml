@@ -38,7 +38,14 @@
     </bean>
 	
 	<!-- 配置 类型转化器 -->
-	<mvc:annotation-driven ></mvc:annotation-driven>
+	<mvc:annotation-driven>
+      <!--   <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <property name="objectMapper" ref="customObjectMapper"></property>
+            </bean>
+        </mvc:message-converters> -->
+    </mvc:annotation-driven>
+    <bean id="customObjectMapper" class="com.myproject.util.CustomObjectMapper"></bean>  
 	<!-- 定义静态资源处理文件 -->
 	<mvc:default-servlet-handler/>
 	<!-- 文件上传  -->

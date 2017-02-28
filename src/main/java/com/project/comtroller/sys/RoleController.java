@@ -104,9 +104,6 @@ public class RoleController extends BasicController{
 	@ResponseBody
 	@RequestMapping(value="/rightTree",method=RequestMethod.POST)
 	public Map<String,Object> rightTree(Integer roleId){
-		if(roleId == null){
-			return R.error("查询出错");
-		}
 		List<Right> rightTree = roleService.findRightTree(roleId);
 		return R.ok().put("tree", rightTree);
 	}

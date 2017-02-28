@@ -112,7 +112,7 @@ $(function() {
 });
 //刷新树
 function refreshTree() {
-	tree.refreshTree();
+	tree.reload();
 }
 // 刷新列表
 function refreshGrid() {
@@ -138,12 +138,15 @@ function deleteOrg(){
 		$.ligerDialog.warn('请选择部门');
 		return false;
 	}
+	var flag = confirm("是否要删除当前部门");
+	if(!flag){
+		return false;
+	}
 	var url = serverpath + "/sys/org/delete/"+orgId;
 	$.post(url,function(data){
 		if(data.code == 1){
-			refreshTree();
 			$.ligerDialog.warn(data.msg);
-			
+			location.reload();
 		}else{
 			$.ligerDialog.warn("删除出错!");
 		}
@@ -167,7 +170,6 @@ function openWindow(orgId) {
 		buttons : [ {
 			text : '保存',
 			onclick : function(item, dialog) {
-				refreshTree();
 				iFrame.submit();
 			}
 		}, {

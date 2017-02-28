@@ -57,26 +57,26 @@ $(function() {
 	rolegrid = $("#rolegrid").ligerGrid({
 		columns : [ {
 			display : 'ID',
-			name : 'rolid',
+			name : 'roleId',
 			align : 'left',
 			width : 100,
 			hide : true,
 			minWidth : 60
 		}, {
 			display : '角色编码',
-			name : 'rolcode',
+			name : 'roleCode',
 			width : 120,
 			align : 'left',
 			minWidth : 120
 		}, {
 			display : '角色名称',
-			name : 'rolname',
+			name : 'roleName',
 			width : 160,
 			align : 'left',
 			minWidth : 120
 		}, {
-			display : '所属机构',
-			name : 'rolorganname',
+			display : '描述',
+			name : 'roleDescription',
 			width : 220,
 			align : 'left',
 			minWidth : 120
@@ -91,14 +91,14 @@ $(function() {
 	usergrid = $("#usergrid").ligerGrid({
 		columns : [ {
 			display : 'ID',
-			name : 'usrid',
+			name : 'userId',
 			align : 'left',
 			width : 100,
 			hide : true,
 			minWidth : 60
 		}, {
 			display : '用户名称',
-			name : 'usrname',
+			name : 'username',
 			width : 120,
 			align : 'left',
 			minWidth : 120
@@ -175,10 +175,10 @@ function submit() {
 		dataType : 'json',
 		success : function(data) {
 			var msg=data.msg;
-			$.ligerDialog.alert(msg.context);
+			$.ligerDialog.alert(msg);
 			waitManager.close();
-			if (data.modId != null) {
-				modId=data.modId;
+			if (data.rightId != null) {
+				rightid=data.rightId;
 				loadData();
 				pwin.refreshTree();
 				pwin.refreshGrid();

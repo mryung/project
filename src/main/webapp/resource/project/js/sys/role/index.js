@@ -16,8 +16,8 @@ $(function() {
 		}, {
 			line : true
 		}, {
-			text : '查询',
-			icon : 'search',
+			text : '删除',
+			icon : 'delete',
 			click : deleteRole
 		}, {
 			line : true
@@ -125,10 +125,14 @@ function deleteRole(){
 		$.ligerDialog.warn('请删除的角色');
 		return false;
 	}
+	var flag = confirm("是否要删除选中的角色");
+	if(!flag){
+		return false;
+	}
 	var url = serverpath + "/sys/role/delete/"+roleId;
 	$.post(url,function(data){
 		if(data.code == 0){
-			$.ligerDialog.alert(msg.msg);
+			$.ligerDialog.alert(data.msg);
 		}else{
 			$.ligerDialog.alert("删除出现错误！");
 		}
@@ -154,17 +158,25 @@ function openWindow(roleId) {
 		height : 450,
 		name : "iFrame",
 		title : title,
-		buttons : [ {
-			text : '保存',
-			onclick : function(item, dialog) {
-				iFrame.submit();
-			}
-		}, {
-			text : '重置密码',
-			onclick : function(item, dialog) {
-				iFrame.resetPassword();
-			}
-		}, {
+		buttons : [ 
+		            (function(){
+		            	if(roleId != 1){
+		            		var button = {
+			            			text : '保存',
+			            			onclick : function(item, dialog) {
+			            				iFrame.submit();
+			            			}
+			            		};
+		            		return button;
+		            	}else{
+		            		return {
+		            			text : '不能修改',
+		            		}
+		            	}
+		            }())
+		            
+		            
+		, {
 			text : '取消',
 			onclick : function(item, dialog) {
 				dialog.close();
@@ -173,43 +185,4 @@ function openWindow(roleId) {
 		modal : false,
 		isResize : true
 	});
-}
-//查询
-function serachUser() {
-	var url = serverpath + '/dba/sql/add?tabId=15';
-	var title = "用户信息【查询】";
-	var m = $.ligerDialog.open({
-		url : url,
-		width : 560,
-		height : 420,
-		name : "iQuery",
-		title : title,
-		buttons : [ {
-			text : '查询',
-			onclick : function(item, dialog) {
-				setQueryParms();
-				dialog.close();
-			}
-		}, {
-			text : '退出',
-			onclick : function(item, dialog) {
-				dialog.close();
-			}
-		} ],
-		modal : true,
-		isResize : true
-	});
-}
-function setQueryParms() {
-	var inputs = $(window.frames["iQuery"].document).find("input");
-	$(inputs).each(function(i){
-		if((this.name).indexOf("filters")==0&&
-			this.type!="radio"){
-			grid.setParm(this.name, this.value);
-		}else if((this.name).indexOf("filters")==0&&
-			this.type=="radio"&&this.checked==true){
-			grid.setParm(this.name, this.value);
-		}
-	});
-	grid.reload();
 }

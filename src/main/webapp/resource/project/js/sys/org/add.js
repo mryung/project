@@ -105,26 +105,6 @@ function loadData() {
 		}
 	});
 }
-
-function resetPassword() {
-	var usrId = $("#usrid").val();
-	if (usrId != null) {
-		$.ajax({
-			url : serverpath + "/sys/user/reset/" + usrId + 
-				"?format=json&date=" + new Date(),
-			type : "post",
-			dataType : 'json',
-			data : $("#form").serialize(),
-			success : function(data) {
-				var msg=data.msg;
-				$.ligerDialog.alert(msg.context);
-			},
-			error : function() {
-				$.ligerDialog.error('保存失败!');
-			}
-		});
-	}
-}
 function submit() {
 	var orgName = $("#orgName").val();
 	if(orgName==""){
@@ -147,13 +127,17 @@ function submit() {
 			var msg = data;
 			waitManager.close();
 			$.ligerDialog.alert(msg.msg);
-			if(msg.code=="0"){
+			if(msg.code=="1"){
 				if (data.orgid != null) {
 					orgId = data.orgid;
+					alert("hello");
+					//刷新树型结构
+					parent.refreshGrid();
+					parent.refreshTree();
 					loadData();
+					
 				}
 			}
-			parent.refreshGrid();
 		},
 		error : function() {
 			$.ligerDialog.error('保存失败!');

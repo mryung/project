@@ -27,7 +27,7 @@ $(function() {
 		leftWidth : 200
 	});
 	tree = $("#tree").ligerTree({
-		url : serverpath + "/sys/role/tree",
+		url : serverpath + "/sys/right/tree",
 		ajaxType : "POST",
 		jsonField : "tree",
 		idFieldName : 'rightId',
@@ -183,14 +183,7 @@ function openWindow(parentrightid, rightid) {
 		buttons : [ {
 			text : '保存',
 			onclick : function(item, dialog) {
-				tree.reload();
-				refreshGrid();
 				iFrame.submit();
-			}
-		}, {
-			text : '重置密码',
-			onclick : function(item, dialog) {
-				iFrame.resetPassword();
 			}
 		}, {
 			text : '取消',

@@ -112,9 +112,9 @@ public class RightController extends BasicController {
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public Map<String,Object> save(TbRight right){
 		
-		rightService.saveRight(right);
+		int rightId = rightService.saveRight(right);
 		
-		return R.ok("保存成功");
+		return R.ok("保存成功").put("rightId", rightId);
 	}
 	
 	
