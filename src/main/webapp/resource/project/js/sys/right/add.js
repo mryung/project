@@ -82,12 +82,14 @@ $(function() {
 			minWidth : 120
 		} ],
 		url : serverpath + "/sys/right/role?rightid=" + rightid,
+		slide : true,
 		method : "post",
 		height : 300,
-		usePager : false,
+		usePager : true,
 		dataAction : 'server',
 		jsonField : "pageInfo"
 	});
+	
 	usergrid = $("#usergrid").ligerGrid({
 		columns : [ {
 			display : 'ID',
@@ -104,24 +106,74 @@ $(function() {
 			minWidth : 120
 		}, {
 			display : '所属部门',
-			name : 'usrdeptname',
+			name : 'orgName',
 			width : 160,
 			align : 'left',
 			minWidth : 120
 		}, {
-			display : '所属机构',
-			name : 'usrorganname',
+			display : '电话',
+			name : 'phone',
+			width : 220,
+			align : 'left',
+			minWidth : 120
+		} , {
+			display : '邮箱',
+			name : 'email',
 			width : 220,
 			align : 'left',
 			minWidth : 120
 		} ],
+		
 		url : serverpath + "/sys/right/user?rightid=" + rightid,
-		method : "post",
+		ajaxType : "post",
+		slide : true,
 		height : 300,
-		usePager : false,
+		usePager : true,
 		dataAction : 'server',
-		jsonField : "pageInfo"				
+		jsonField : "pageInfo",
 	});
+	
+//	usergrid = $("#usergrid").ligerGrid({
+//		columns : [ {
+//			display : 'ID',
+//			name : 'userId',
+//			align : 'left',
+//			width : 100,
+//			hide : true,
+//			minWidth : 60
+//		}, {
+//			display : '用户名称',
+//			name : 'username',
+//			width : 120,
+//			align : 'left',
+//			minWidth : 120
+//		}, {
+//			display : '电话',
+//			name : 'phone',
+//			width : 220,
+//			align : 'left',
+//			minWidth : 120
+//		} , {
+//			display : '邮箱',
+//			name : 'email',
+//			width : 220,
+//			align : 'left',
+//			minWidth : 120
+//		} , {
+//			display : '所属部门',
+//			name : 'orgName',
+//			width : 160,
+//			align : 'left',
+//			minWidth : 120
+//		} ],
+//		url : serverpath + "/sys/right/user?rightid=" + rightid,
+//		slide : true,
+//		method : "post",
+//		height : 300,
+//		usePager : true,
+//		dataAction : 'server',
+//		jsonField : "pageInfo"				
+//	});
 });
 function loadData() {
 	

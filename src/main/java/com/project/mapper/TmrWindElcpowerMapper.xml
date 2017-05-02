@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.TmrWindElcpowerMapper" >
+  <resultMap id="BaseResultMap" type="com.project.entity.TmrWindElcpower" >
+    <result column="Meterpointno" property="meterpointno" jdbcType="INTEGER" />
+    <result column="CLECTTIME" property="clecttime" jdbcType="INTEGER" />
+    <result column="WHPCODE" property="whpcode" jdbcType="DOUBLE" />
+  </resultMap>
+  <!-- 查询每栋楼的当日用电 -->
+  <select id="selectBuildPower" resultType="double">
+  	select ISNULL(sum(weather), 0.0)/10.0 -
+	(select ISNULL(sum(weather), 0.0)/10.0 from 
+		(select max(a.WHPCODE) weather from TMR_WIND_ELCPOWER201701 a where a.CLECTTIME <![CDATA[ <= ]]> 1483200000 GROUP BY a.Meterpointno) T)
+ 			from 
+ 				(select max(t.WHPCODE) weather from TMR_WIND_ELCPOWER201701 t where t.CLECTTIME <![CDATA[ <= ]]> 1485878100 GROUP BY t.Meterpointno) T
+  </select>
+</mapper>

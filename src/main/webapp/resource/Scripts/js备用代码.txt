@@ -1,0 +1,420 @@
+﻿
+    function generateChartColumn(ctParms) {
+   
+        var jump_chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'chartContainer',
+                defaultSeriesType: "column",
+                width: ctParms.width,
+                height: ctParms.height,
+                borderWidth: 0,
+                marginRight: 5
+            },
+            color: ['#FFFF00'],
+            credits: {
+                text: ""
+            },
+            title: {
+                text: '周用电量统计'
+            },
+            xAxis: {
+                categories: ctParms.categories
+            },
+            yAxis: {
+            lineWidth: 1,
+            tickWidth: 1,
+            title: {
+                align: 'high',
+                offset: 0,
+                text: 'kWh',
+                rotation: 0,
+                y: -10
+            },
+                min: 0,
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function () {
+                    //                    setTimeout(function () {
+
+                    //                        $.ajax({
+                    //                            url: 'SumDataByMonth.ashx',
+                    //                            data:
+                    //                                { year: (new Date()).getFullYear(),
+                    //                                    month: tp.x.replace("月", "")
+                    //                                },
+                    //                            async: false,
+                    //                            success: function (data) {
+                    //                                var sumData = parseFloat(data);
+                    //                                optionZoomSmall_1.small_1_data = sumData;
+                    //                                optionZoomSmall_1.y = tp.y;
+                    //                                optionZoomSmall_1.x = tp.x;
+
+                    //                            }
+                    //                        });
+                    //                        generateSmallChart(optionZoomSmall_1);
+                    //                    }, 500);
+                    return this.point.name + ': ' + this.y.toFixed(2);
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            plotOptions: {
+                column:
+                {
+                    events:
+                        {
+                            click: function myfunction(e) {
+                                generateChartColumnDay({
+                                    url: "DataForWeek.ashx",
+                                    year: 2012,
+                                    month: 3,
+                                    week: e.point.name[0],                                 
+                                    id: 'chartContainer',
+                                    categories: ['星期1', '星期2', '星期3', '星期4', '星期5', '星期6', '星期7']
+                                });
+                            }
+                        }
+                }
+
+
+            },
+            series: (function () {
+                var series = [];
+                series[0] = {};
+                var mydata = [];
+                $.ajax({
+                    url: ctParms.url,
+                    data: {
+                        year: ctParms.year,
+                        month: ctParms.month,
+                        week:ctParms.week
+                    },
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        var reData = eval('(' + data + ')');
+                        $.each(reData, function (i) {
+                            mydata.push([i + 1 + '周', this]);
+                        });
+                    }
+                });
+                series[0].data = mydata;
+                return series;
+            })()
+        });
+    }
+
+
+
+
+
+
+
+
+    function generateChartColumnDay(ctParms) {
+        var jump_chart = new Highcharts.Chart({
+            chart: {
+                renderTo: ctParms.id,
+                defaultSeriesType: "column",
+                width: ctParms.width,
+                height: ctParms.height,
+                borderWidth: 0,
+                marginRight: 5
+            },
+            color: ['#FFFF00'],
+            credits: {
+                text: ""
+            },
+            title: {
+                text: '日用电量统计'
+            },
+            xAxis: {
+                categories: (function () {
+                    $.ajax({
+                        url: 'Date.ashx',
+                        data: {
+                            week: ctParms.week
+                        },
+                        async:false,
+                        success: function (data) {
+                            var mydata = eval('(' + data + ')');
+                            $.each(mydata, function (i) {
+                                ctParms.categories[i] = ctParms.categories[i]+'<br/>' + '(' + (new Date(this * 1000)).getDate() + ')';
+                            })
+                        }
+                    });
+                    return ctParms.categories;
+                })()
+            },
+            yAxis: {
+                lineWidth: 1,
+                tickWidth: 1,
+                title: {
+                    align: 'high',
+                    offset: 0,
+                    text: 'kWh',
+                    rotation: 0,
+                    y: -10
+                },
+                min: 0,
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function () {
+                    //                    setTimeout(function () {
+
+                    //                        $.ajax({
+                    //                            url: 'SumDataByMonth.ashx',
+                    //                            data:
+                    //                                { year: (new Date()).getFullYear(),
+                    //                                    month: tp.x.replace("月", "")
+                    //                                },
+                    //                            async: false,
+                    //                            success: function (data) {
+                    //                                var sumData = parseFloat(data);
+                    //                                optionZoomSmall_1.small_1_data = sumData;
+                    //                                optionZoomSmall_1.y = tp.y;
+                    //                                optionZoomSmall_1.x = tp.x;
+
+                    //                            }
+                    //                        });
+                    //                        generateSmallChart(optionZoomSmall_1);
+                    //                    }, 500);
+                    return this.point.name + ': ' + this.y.toFixed(2);
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            plotOptions: {
+                column:
+                {
+                    events:
+                        {
+                            click: function (e) {
+                                generateChartHours({
+                                    url: "DataForWeek.ashx",
+                                    year: 2012,
+                                    month: 3,
+                                    week: ctParms.week,
+                                    day: e.point.name[2],
+                                    id: 'chartContainer'
+                                });
+                            }
+                        }
+                }
+
+
+            },
+            series: (function () {
+                var series = [];
+                series[0] = {};
+                var mydata = [];
+                $.ajax({
+                    url: ctParms.url,
+                    data: {
+                        year: ctParms.year,
+                        month: ctParms.month,
+                        week: ctParms.week
+                    },
+                    cache: false,
+                    async: false,
+                    success: function (data) {
+                        var reData = eval('(' + data + ')');
+                        $.each(reData, function (i) {
+                            mydata.push(['星期' + (i + 1), this]);
+                        });
+                    }
+                });
+                series[0].data = mydata;
+                return series;
+            })()
+        });
+    }
+
+
+    function generateChartHours(ctParms) {
+        var jump_chart = new Highcharts.Chart({
+            chart: {
+                renderTo: ctParms.id,
+                defaultSeriesType: "column",
+                width: ctParms.width,
+                height: ctParms.height,
+                borderWidth: 0,
+                marginRight: 5
+            },
+            color: ['#FFFF00'],
+            credits: {
+                text: ""
+            },
+            title: {
+                text: '小时用电量统计'
+            },
+            xAxis: {
+                categories: (function() {
+                    var cyie = [];
+                    for (var ti = 1; ti < 25; ti++)
+                        cyie.push(ti.toString());
+                    return cyie;
+                })()
+            },
+            yAxis: {
+            lineWidth: 1,
+            tickWidth: 1,
+            title: {
+                align: 'high',
+                offset: 0,
+                text: 'kWh',
+                rotation: 0,
+                y: -10
+            },
+                min: 0,
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+}]
+                },
+                tooltip: {
+                    formatter: function() {
+                        //                    setTimeout(function () {
+
+                        //                        $.ajax({
+                        //                            url: 'SumDataByMonth.ashx',
+                        //                            data:
+                        //                                { year: (new Date()).getFullYear(),
+                        //                                    month: tp.x.replace("月", "")
+                        //                                },
+                        //                            async: false,
+                        //                            success: function (data) {
+                        //                                var sumData = parseFloat(data);
+                        //                                optionZoomSmall_1.small_1_data = sumData;
+                        //                                optionZoomSmall_1.y = tp.y;
+                        //                                optionZoomSmall_1.x = tp.x;
+
+                        //                            }
+                        //                        });
+                        //                        generateSmallChart(optionZoomSmall_1);
+                        //                    }, 500);
+                        return this.point.name + ': ' + this.y.toFixed(2);
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+                series: (function() {
+                    var series = [];
+                    series[0] = {};
+                    var mydata = [];
+                    $.ajax({
+                        url: ctParms.url,
+                        data: {
+                            year: ctParms.year,
+                            month: ctParms.month,
+                            week: ctParms.week,
+                            day: ctParms.day
+                        },
+                        cache: false,
+                        async: false,
+                        success: function(data) {
+                            var reData = eval('(' + data + ')');
+                            $.each(reData, function(d) {
+                                var i = d + 1;
+                                if ((i > 7 && i <= 11) || (i > 19 && i <= 23)) {
+                                    mydata.push({
+                                        name: '峰<br/>' + i + ":00 ",
+                                        color: "Red",
+                                        y: this
+                                    });
+                                } else if (i > 23 || i <= 7) {
+                                    mydata.push({
+                                        name: '谷<br/>' + i + ":00 ",
+                                        color: "#FFFAFA",
+                                        y: this
+                                    });
+                                }
+                                else if (i > 11 && i <= 19) {
+                                    mydata.push({
+                                        name: '平<br/>' + i + ":00 ",
+                                        color: "Yellow",
+                                        y: this
+                                    });
+
+                                }
+                            });
+                        }
+                    });
+                    series[0].data = mydata;
+                    return series;
+                })()
+            });
+
+        }
+
+
+
+
+		/*
+    var optionZoom =
+        {
+            id: 'chartContainer',
+            width: 800,
+            height: 500,
+            type: "column",
+            powerCategory: "blds",
+            timeCategory: "year",
+            categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+            title: '月用电量统计'
+        }
+        var optionZoomBld = {
+            id: 'chartContainer',
+            width: 800,
+            height: 500,
+            type: "column",
+            powerCategory: "blds",
+            timeCategory: "year",
+            categories: ['一号楼', '二号楼', '三号楼', '四号楼', '五号楼', '六号楼'],
+            title: '各楼层用电量统计'
+        }
+    var optionZoomSmall_1 =
+        {
+            id: 'chartContainer_small_bld',
+            width: 400,
+            height: 300,
+            type: "pie",
+            categories:[],
+            powerCategory: "bld",
+            timeCategory: "cotegories",
+            title: ""
+        }
+        var optionZoomSmall_2 =
+        {
+            id: 'chartContainer_small_cy',
+            width: 400,
+            height: 300,
+            type: "pie",
+            categories: [],
+            powerCategory: "bld",
+            timeCategory: "cotegories",
+            title: ""
+        }
+        */暂时保留

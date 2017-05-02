@@ -1,9 +1,10 @@
 package com.project.mapper;
 
-import com.project.entity.TbLog;
-import com.project.entity.TbLogExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import com.project.entity.TbLog;
+import com.project.entity.TbLogExample;
 
 public interface TbLogMapper {
     int countByExample(TbLogExample example);

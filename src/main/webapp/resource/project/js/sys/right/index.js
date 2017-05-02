@@ -15,12 +15,6 @@ $(function() {
 			click : editRightWindow
 		}, {
 			line : true
-		}, {
-			text : '查询',
-			icon : 'search',
-			click : serachUser
-		}, {
-			line : true
 		}]
 	});
 	$("#layout").ligerLayout({
@@ -177,7 +171,7 @@ function openWindow(parentrightid, rightid) {
 	$.ligerDialog.open({
 		url : url,
 		width : 600,
-		height : 350,
+		height : 450,
 		name : "iFrame",
 		title : title,
 		buttons : [ {
@@ -194,43 +188,4 @@ function openWindow(parentrightid, rightid) {
 		modal : false,
 		isResize : true
 	});
-}
-//查询
-function serachUser() {
-	var url = serverpath + '/dba/sql/add?tabId=15';
-	var title = "用户信息【查询】";
-	var m = $.ligerDialog.open({
-		url : url,
-		width : 560,
-		height : 420,
-		name : "iQuery",
-		title : title,
-		buttons : [ {
-			text : '查询',
-			onclick : function(item, dialog) {
-				setQueryParms();
-				dialog.close();
-			}
-		}, {
-			text : '退出',
-			onclick : function(item, dialog) {
-				dialog.close();
-			}
-		} ],
-		modal : true,
-		isResize : true
-	});
-}
-function setQueryParms() {
-	var inputs = $(window.frames["iQuery"].document).find("input");
-	$(inputs).each(function(i){
-		if((this.name).indexOf("filters")==0&&
-			this.type!="radio"){
-			grid.setParm(this.name, this.value);
-		}else if((this.name).indexOf("filters")==0&&
-			this.type=="radio"&&this.checked==true){
-			grid.setParm(this.name, this.value);
-		}
-	});
-	grid.reload();
 }

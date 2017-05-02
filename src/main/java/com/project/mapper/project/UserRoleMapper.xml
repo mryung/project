@@ -27,10 +27,13 @@
 	<!-- 用户和角色关联的映射 -->
 	<select id="selectRoleByUserId" resultMap="BaseResultMap">
 		select tb_role.* ,0 as ischecked from tb_role,tb_user_role
-		 where tb_user_role.user_id =#{userId}  and tb_role.role_id = tb_user_role.role_id and tb_role.deleted = 0
+		 where tb_user_role.user_id =#{userId}  and tb_role.role_id = tb_user_role.role_id
+		  and tb_role.deleted = 0 and tb_role.available = 1
 	</select>
 	<select id="selectRoleByParents" resultMap="BaseResultMap">
-		select tb_role.*,0 as ischecked from tb_role where tb_role.role_parents like '${_parameter}%' and tb_role.deleted = 0
+		select tb_role.*,0 as ischecked from tb_role 
+		where tb_role.role_parents like '${_parameter}%'
+		 and tb_role.deleted = 0 and tb_role.available = 1
 	</select>
 	
 	<delete id="deleteUserRoles"  parameterType="int">

@@ -1,9 +1,10 @@
 package com.project.mapper;
 
-import com.project.entity.TbGroup;
-import com.project.entity.TbGroupExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import com.project.entity.TbGroup;
+import com.project.entity.TbGroupExample;
 
 public interface TbGroupMapper {
     int countByExample(TbGroupExample example);

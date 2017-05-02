@@ -1,9 +1,10 @@
 package com.project.mapper;
 
-import com.project.entity.TbUserRight;
-import com.project.entity.TbUserRightExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import com.project.entity.TbUserRight;
+import com.project.entity.TbUserRightExample;
 
 public interface TbUserRightMapper {
     int countByExample(TbUserRightExample example);

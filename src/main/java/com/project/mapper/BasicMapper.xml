@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.project.mapper.BasicMapper" >
+  <resultMap id="BaseResultMap" type="com.project.entity.TmrWindElcpower" >
+    <result column="Meterpointno" property="meterpointno" jdbcType="INTEGER" />
+    <result column="CLECTTIME" property="clecttime" jdbcType="INTEGER" />
+    <result column="WHPCODE" property="whpcode" jdbcType="DOUBLE" />
+  </resultMap>
+  
+  <sql id="pointListSql">
+  	<if test="null != pointList and pointList.size > 0">
+	  	<foreach collection="pointList" item="item" open=" and Meterpointno in ( "  separator="," close=")">
+	  		#{item}
+	  	</foreach>
+  	</if>
+  </sql>
+  
+  <!-- 查询每栋楼的当日用电 -->
+  <!-- tableName TMR_WIND_ELCPOWER201701 -->
+  <!-- startTime  -->
+  <!-- endTime  -->
+  <!-- pointList 点的列表 -->
+  <select id="basicSelect" resultType="double">
+  	<!-- sqlserver select ISNULL(sum(weather), 0.0)/10.0 -
+	(select ISNULL(sum(weather), 0.0)/10.0 from 
+		(select max(a.WHPCODE) weather from ${tableName} a where a.CLECTTIME <![CDATA[ <= ]]> #{startTime} <include refid="pointListSql"></include> GROUP BY a.Meterpointno) T)
+ 			from 
+ 				(select max(t.WHPCODE) weather from ${tableName}  t where t.CLECTTIME <![CDATA[ <= ]]> #{endTime}  <include refid="pointListSql"></include> GROUP BY t.Meterpointno) T
+  -->
+  	<!-- mysql -->
+  	select ifnull(sum(weather), 0.0)/10.0 -
+	(select ifnull(sum(weather), 0.0)/10.0 from 
+		(select max(a.WHPCODE) weather from ${tableName} a where a.CLECTTIME <![CDATA[ <= ]]> #{startTime} <include refid="pointListSql"></include> GROUP BY a.Meterpointno) T)
+ 			from 
+ 				(select max(t.WHPCODE) weather from ${tableName}  t where t.CLECTTIME <![CDATA[ <= ]]> #{endTime}  <include refid="pointListSql"></include> GROUP BY t.Meterpointno) T
+  
+  
+  </select>
+  
+  
+  <select id="basicSelectByPoint" resultType="double">
+  	<!-- mysql -->
+  	select ifnull(sum(weather), 0.0)/10.0 -
+	(select ifnull(sum(weather), 0.0)/10.0 from 
+		(select max(a.WHPCODE) weather from ${tableName} a where a.CLECTTIME <![CDATA[ <= ]]> #{startTime} and Meterpointno in (${pointList}) GROUP BY a.Meterpointno) T)
+ 			from 
+ 				(select max(t.WHPCODE) weather from ${tableName}  t where t.CLECTTIME <![CDATA[ <= ]]> #{endTime} and Meterpointno in (${pointList})  GROUP BY t.Meterpointno) T
+  
+  <!--  select ISNULL(sum(weather), 0.0)/10.0 -
+	(select ISNULL(sum(weather), 0.0)/10.0 from 
+		(select max(a.WHPCODE) weather from ${tableName} a where a.CLECTTIME <![CDATA[ <= ]]> #{startTime} and Meterpointno in (${pointList}) GROUP BY a.Meterpointno) T)
+ 			from 
+ 				(select max(t.WHPCODE) weather from ${tableName}  t where t.CLECTTIME <![CDATA[ <= ]]> #{endTime} and Meterpointno in (${pointList})  GROUP BY t.Meterpointno) T
+  -->
+  </select>
+  
+  
+  <select id="basicSelect1" resultType="double">
+  	<!-- mysql -->
+  	select ifnull(sum(weather), 0.0)/10.0 -
+	(select ifnull(sum(weather), 0.0)/10.0 from 
+		(select max(a.WHPCODE) weather from ${tableName1} a where a.CLECTTIME <![CDATA[ <= ]]> #{startTime} <include refid="pointListSql"></include> GROUP BY a.Meterpointno) T)
+ 			from 
+ 				(select max(t.WHPCODE) weather from ${tableName2}  t where t.CLECTTIME <![CDATA[ <= ]]> #{endTime}  <include refid="pointListSql"></include> GROUP BY t.Meterpointno) T
+ 	<!-- 
+ 	sqlserver
+  	select ISNULL(sum(weather), 0.0)/10.0 -
+	(select ISNULL(sum(weather), 0.0)/10.0 from 
+		(select max(a.WHPCODE) weather from ${tableName1} a where a.CLECTTIME <![CDATA[ <= ]]> #{startTime} <include refid="pointListSql"></include> GROUP BY a.Meterpointno) T)
+ 			from 
+ 				(select max(t.WHPCODE) weather from ${tableName2}  t where t.CLECTTIME <![CDATA[ <= ]]> #{endTime}  <include refid="pointListSql"></include> GROUP BY t.Meterpointno) T
+  
+  -->
+  </select>
+  <select id="basicSelectByPoint1" resultType="double">
+  <!-- mysql -->
+  	select ifnull(sum(weather), 0.0)/10.0 -
+	(select ifnull(sum(weather), 0.0)/10.0 from 
+		(select max(a.WHPCODE) weather from ${tableName1} a where a.CLECTTIME <![CDATA[ <= ]]> #{startTime} and Meterpointno in (${pointList}) GROUP BY a.Meterpointno) T)
+ 			from 
+ 				(select max(t.WHPCODE) weather from ${tableName2}  t where t.CLECTTIME <![CDATA[ <= ]]> #{endTime} and Meterpointno in (${pointList})  GROUP BY t.Meterpointno) T
+ 
+ <!-- sqlserver
+ 		select ISNULL(sum(weather), 0.0)/10.0 -
+	(select ISNULL(sum(weather), 0.0)/10.0 from 
+		(select max(a.WHPCODE) weather from ${tableName1} a where a.CLECTTIME <![CDATA[ <= ]]> #{startTime} and Meterpointno in (${pointList}) GROUP BY a.Meterpointno) T)
+ 			from 
+ 				(select max(t.WHPCODE) weather from ${tableName2}  t where t.CLECTTIME <![CDATA[ <= ]]> #{endTime} and Meterpointno in (${pointList})  GROUP BY t.Meterpointno) T
+ 
+  -->
+  </select>
+</mapper>

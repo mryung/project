@@ -4,13 +4,19 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5" >
 	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	
 	 <!-- needed for ContextLoaderListener -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:applicationContext.xml,
+		 	classpath:application-shiro-redis.xml
+		 <!-- 	
 		 	classpath:application-shiro.xml, 
-		 <!-- 	classpath:application-shiro-redis.xml -->
+		  -->
 		</param-value>
 	</context-param>
 	

@@ -45,8 +45,9 @@ $(function() {
 		clickSelectHide : true,
 		treeLeafOnly : false
 	});
+	loadData();
 	
-	user = $("#userList").ligerGrid({
+user = $("#userList").ligerGrid({
 		
 		columns : [ {
 			display : 'ID',
@@ -85,7 +86,7 @@ $(function() {
 		ajaxType : "post",
 		slide : true,
 		height : 300,
-		usePager : false,
+		usePager : true,
 		dataAction : 'server',
 		jsonField : "pageInfo",
 		parms :[
@@ -106,7 +107,6 @@ $(function() {
 			        {name:"roleId",value:roleId}],
 			
 	});
-	loadData();
 });
 function loadData() {
 	if(roleId == null || roleId == ''){

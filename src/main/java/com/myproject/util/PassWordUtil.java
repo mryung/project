@@ -14,11 +14,11 @@ public class PassWordUtil {
 	
 	public static void main(String[] args) {
 		
-		String username = "2327542415";
+		String username = "2327542415@qq.com";
 		HashedCredentialsMatcher hashq = new HashedCredentialsMatcher("SHA1");
 //		hashq.doCredentialsMatch(token, info)
 //		new SimpleHash("SHA1",username,ByteSource.Util.bytes(username),2); 
-		SimpleHash hash = new SimpleHash("SHA1",username,ByteSource.Util.bytes(username),2);
+		SimpleHash hash = new SimpleHash("SHA1","111111",ByteSource.Util.bytes(username),2);
 		System.out.println(hash.toString());
 		
 	}

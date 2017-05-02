@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 每栋楼的 xml -->
+<root>
+    <一号楼>
+    <Point No="197" Description="D区消防电梯动力一电" />
+    <Point No="200" Description="D区屋面正压风机动力一电" />
+    <Point No="207" Description="D区十一层设备层照明" />
+    <Point No="208" Description="D区一至五层照明" />
+    <Point No="213" Description="D区六至十层照明" />
+    <Point No="214" Description="C、D区新风机组盘管" />
+    <Point No="237" Description="D区全面排风机" />
+    <Point No="238" Description="D区消防电梯动力二电" />
+    <Point No="241" Description="D区屋面正压风机动力二电" />
+  </一号楼>
+
+  <二号楼>
+    <Point No="8" Description="C区冷却塔" />
+    <Point No="196" Description="C区消防电梯动力一电" />
+    <Point No="199" Description="C区屋面正压风机动力一电" />
+    <Point No="209" Description="C区六至十层照明" />
+    <Point No="211" Description="C区十一层照明" />
+    <Point No="212" Description="C区一至五层照明" />
+    <Point No="230" Description="C区立面照明" />
+    <Point No="239" Description="C区屋面正压风机动力二电" />
+  </二号楼>
+
+  <三号楼>
+    <Point No="7" Description="B区冷却塔" />
+    <Point No="98" Description="B区屋面正压风机动力一电" />
+    <Point No="104" Description="B区消防电梯动力一电" />
+    <Point No="110" Description="B区十一设备照明" />
+    <Point No="116" Description="AB区新风机组分机盘管" />
+    <Point No="125" Description="B区普通电梯" />
+    <Point No="128" Description="B区一至五层照明" />
+    <Point No="129" Description="B区六至十层照明" />
+    <Point No="131" Description="B区立面照明" />
+    <Point No="142" Description="B区消防电梯动力二电" />
+    <Point No="145" Description="B区屋面正压风机动力二电" />
+  </三号楼>
+
+  <四号楼>
+    <Point No="97" Description="A区屋面正压风机动力一电" />
+    <Point No="103" Description="A区消防电梯动力一电" />
+    <Point No="111" Description="A区一至五层照明" />
+    <Point No="112" Description="A区六至十层照明" />
+    <Point No="113" Description="A区十一层设备层照明" />
+    <Point No="124" Description="A区普通电梯" />
+    <Point No="141" Description="A区消防电梯动力二电" />
+    <Point No="143" Description="A区屋面正压风机动力二电" />
+  </四号楼>
+
+  <五号楼>
+    <Point No="115" Description="E区4FUPS电源" />
+    <Point No="117" Description="E区新风机组风机盘管" />
+    <Point No="130" Description="E区一至三层照明 " />
+    <Point No="135" Description="E区四至六层照明" />
+    <Point No="136" Description="E区七至八层照明" />
+    <Point No="206" Description="信息办UPS(辅楼E区1F)" />
+    <Point No="224" Description="D、E区普通电梯" />
+  </五号楼>
+  <六号楼>
+    <Point No="215" Description="F区新风机组盘管" />
+    <Point No="232" Description="F区四至六层设备照明" />
+    <Point No="233" Description="F区七至八层设备照明" />
+    <Point No="235" Description="F区一至三层照明" />
+    <Point No="236" Description="F区一层正压风机动力二电" />
+  </六号楼>
+</root>

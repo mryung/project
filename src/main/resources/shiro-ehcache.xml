@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../config/ehcache.xsd">
 	<!--diskStore：缓存数据持久化的目录 地址  -->
@@ -13,4 +14,13 @@
 		diskExpiryThreadIntervalSeconds="120"
 		memoryStoreEvictionPolicy="LRU">
 	</defaultCache>
+	
+	<cache name="datacahche"
+	 maxElementsInMemory="1000"
+	 timeToIdleSeconds="3600"
+	 timeToLiveSeconds="3600"
+	 eternal="false"
+	 overflowToDisk="false" />
+	
+	
 </ehcache>

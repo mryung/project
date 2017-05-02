@@ -1,9 +1,10 @@
 package com.project.mapper;
 
-import com.project.entity.TbGroupRole;
-import com.project.entity.TbGroupRoleExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import com.project.entity.TbGroupRole;
+import com.project.entity.TbGroupRoleExample;
 
 public interface TbGroupRoleMapper {
     int countByExample(TbGroupRoleExample example);

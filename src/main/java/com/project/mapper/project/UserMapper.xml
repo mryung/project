@@ -26,7 +26,7 @@
 	</select>
 	
 	<select id="selectUserByRightid" parameterType="int" resultMap="BaseResultMap">
-  		select distinct tb_user.user_id,tb_user.username,tb_organization.org_name,tb_user.organization_id from tb_user,tb_user_right,tb_organization 
+  		select distinct tb_user.user_id,tb_user.username,tb_organization.org_name,tb_user.organization_id ,tb_user.email,tb_user.phone from tb_user,tb_user_right,tb_organization 
 		where tb_user.user_id = tb_user_right.user_id and tb_user.organization_id = tb_organization.org_id
 		 and tb_user_right.right_id = #{rightid} and tb_organization.org_parents like '${parents}'
   	</select>

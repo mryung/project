@@ -1,255 +1,219 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>系统管理</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<link rel="stylesheet"
-	href="${assets}/materialize/css/materialize.min.css"
-	media="screen,projection" />
-<!-- Bootstrap Styles-->
-<link href="${assets}/css/bootstrap.css" rel="stylesheet" />
-<!-- FontAwesome Styles-->
-<link href="${assets}/css/font-awesome.css" rel="stylesheet" />
-<!-- Morris Chart Styles-->
-<link href="${assets}/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
-<!-- Custom Styles-->
-<link href="${assets}/css/custom-styles.css" rel="stylesheet" />
-<!-- Google Fonts-->
-<!-- Google Fonts-->
-<link href='http://fonts.googleapis.com/css?family=Open+Sans'
-	rel='stylesheet' type='text/css' />
-<link rel="stylesheet"
-	href="${assets}/js/Lightweight-Chart/cssCharts.css">
+<head id="Head1" runat="server">
+<title>区公共机构节能</title>
+<link href="${rc.contextPath}/resource/css/all.css" rel="Stylesheet" type="text/css" />
+<script type="text/javascript">
+	var serverpath = "${rc.contextPath}";
+</script>
 </head>
 <body>
-	<div class="wrapper">
-		<nav class="navbar navbar-default top-navbar" role="navigation">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle waves-effect waves-dark"
-					data-toggle="collapse" data-target=".sidebar-collapse">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand waves-effect waves-dark" href="#"><i
-					class="large material-icons">insert_chart</i> <strong>后台管理</strong></a>
+	<form id="form1" runat="server">
+    <div id="wrapper" align="center">
+        <div id="hd_menu" align="center">
+            <table width="100%">
+            	<tr>
+            		<td align="left">
+			            <ul style="float:left;">
+			                <li class="firstli"><a href="Default.aspx">系统首页</a></li>
+			                <li class="firstli"><a href="${rc.contextPath}/frame/index">后台管理</a></li>
+			            </ul>
+			        </td>
+            	<td align="right" valign="middle" style="padding-top:10px;">
+            </td>
+           <td align="right" valign="top">
+          
+         </td>
+        </tr></table>
+        </div>
+        <div style="width: 100%;">
+            <div style="width:100%">
 
-				<div id="sideNav" href="">
-					<i class="material-icons dp48">toc</i>
-				</div>
-
-			</div>
-
-			<ul class="nav navbar-top-links navbar-right">
-				<li><a class="dropdown-button waves-effect waves-dark"
-					href="#!" data-activates="dropdown4"><i
-						class="fa fa-envelope fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
-				<li><a class="dropdown-button waves-effect waves-dark"
-					href="#!" data-activates="dropdown3"><i
-						class="fa fa-tasks fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
-				<li><a class="dropdown-button waves-effect waves-dark"
-					href="#!" data-activates="dropdown2"><i
-						class="fa fa-bell fa-fw"></i> <i class="material-icons right">arrow_drop_down</i></a></li>
-				<li><a class="dropdown-button waves-effect waves-dark"
-					href="#!" data-activates="dropdown1"><i
-						class="fa fa-user fa-fw"></i> <b>John Doe</b> <i
-						class="material-icons right">arrow_drop_down</i></a></li>
-			</ul>
-		</nav>
-		<ul id="dropdown1" class="dropdown-content">
-			<li><a href="#"><i class="fa fa-user fa-fw"></i>我的信息</a></li>
-			<li><a href="#"><i class="fa fa-gear fa-fw"></i>修改密码</a></li>
-			<li><a href="#"><i class="fa fa-sign-out fa-fw"></i>退出</a></li>
-		</ul>
-
-		<nav class="navbar  navbar-default navbar-side" style="height: 10000px" role="navigation">
-			<div class="sidebar-collapse">
-				<ul class="nav" id="main-menu">
-					<li><a class="active-menu waves-effect waves-dark"
-						href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-					<li><a href="ui-elements.html" class="waves-effect waves-dark"><i
-							class="fa fa-desktop"></i> UI Elements</a></li>
-					<li><a href="chart.html" class="waves-effect waves-dark"><i
-							class="fa fa-bar-chart-o"></i> Charts</a></li>
-					<li><a href="tab-panel.html" class="waves-effect waves-dark"><i
-							class="fa fa-qrcode"></i> Tabs & Panels</a></li>
-
-					<li><a href="table.html" class="waves-effect waves-dark"><i
-							class="fa fa-table"></i> Responsive Tables</a></li>
-					<li><a href="form.html" class="waves-effect waves-dark"><i
-							class="fa fa-edit"></i> Forms </a></li>
-					<li><a href="#" class="waves-effect waves-dark"><i
-							class="fa fa-sitemap"></i> Multi-Level Dropdown<span
-							class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li><a href="#">Second Level Link</a></li>
-							<li><a href="#">Second Level Link</a></li>
-							<li><a href="#">Second Level Link<span class="fa arrow"></span></a>
-								<ul class="nav nav-third-level">
-									<li><a href="#">Third Level Link</a></li>
-									<li><a href="#">Third Level Link</a></li>
-									<li><a href="#">Third Level Link</a></li>
-
-								</ul></li>
-						</ul></li>
-					<li><a href="empty.html" class="waves-effect waves-dark"><i
-							class="fa fa-fw fa-file"></i> Empty Page</a></li>
-					<li><a class="active-menu waves-effect waves-dark"
-						href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-					<li><a href="ui-elements.html" class="waves-effect waves-dark"><i
-							class="fa fa-desktop"></i> UI Elements</a></li>
-					<li><a href="chart.html" class="waves-effect waves-dark"><i
-							class="fa fa-bar-chart-o"></i> Charts</a></li>
-					<li><a href="tab-panel.html" class="waves-effect waves-dark"><i
-							class="fa fa-qrcode"></i> Tabs & Panels</a></li>
-
-					<li><a href="table.html" class="waves-effect waves-dark"><i
-							class="fa fa-table"></i> Responsive Tables</a></li>
-					<li><a href="form.html" class="waves-effect waves-dark"><i
-							class="fa fa-edit"></i> Forms </a></li>
-					<li><a href="#" class="waves-effect waves-dark"><i
-							class="fa fa-sitemap"></i> Multi-Level Dropdown<span
-							class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li><a href="#">Second Level Link</a></li>
-							<li><a href="#">Second Level Link</a></li>
-							<li><a href="#">Second Level Link<span class="fa arrow"></span></a>
-								<ul class="nav nav-third-level">
-									<li><a href="#">Third Level Link</a></li>
-									<li><a href="#">Third Level Link</a></li>
-									<li><a href="#">Third Level Link</a></li>
-
-								</ul></li>
-						</ul></li>
-					<li><a href="empty.html" class="waves-effect waves-dark"><i
-							class="fa fa-fw fa-file"></i> Empty Page</a></li>
-					<li><a class="active-menu waves-effect waves-dark"
-						href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-					<li><a href="ui-elements.html" class="waves-effect waves-dark"><i
-							class="fa fa-desktop"></i> UI Elements</a></li>
-					<li><a href="chart.html" class="waves-effect waves-dark"><i
-							class="fa fa-bar-chart-o"></i> Charts</a></li>
-					<li><a href="tab-panel.html" class="waves-effect waves-dark"><i
-							class="fa fa-qrcode"></i> Tabs & Panels</a></li>
-
-					<li><a href="table.html" class="waves-effect waves-dark"><i
-							class="fa fa-table"></i> Responsive Tables</a></li>
-					<li><a href="form.html" class="waves-effect waves-dark"><i
-							class="fa fa-edit"></i> Forms </a></li>
-					<li><a href="#" class="waves-effect waves-dark"><i
-							class="fa fa-sitemap"></i> Multi-Level Dropdown<span
-							class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li><a href="#">Second Level Link</a></li>
-							<li><a href="#">Second Level Link</a></li>
-							<li><a href="#">Second Level Link<span class="fa arrow"></span></a>
-								<ul class="nav nav-third-level">
-									<li><a href="#">Third Level Link</a></li>
-									<li><a href="#">Third Level Link</a></li>
-									<li><a href="#">Third Level Link</a></li>
-
-								</ul></li>
-						</ul></li>
-					<li><a href="empty.html" class="waves-effect waves-dark"><i
-							class="fa fa-fw fa-file"></i> Empty Page</a></li>
-					<li><a class="active-menu waves-effect waves-dark"
-						href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-					<li><a href="ui-elements.html" class="waves-effect waves-dark"><i
-							class="fa fa-desktop"></i> UI Elements</a></li>
-					<li><a href="chart.html" class="waves-effect waves-dark"><i
-							class="fa fa-bar-chart-o"></i> Charts</a></li>
-					<li><a href="tab-panel.html" class="waves-effect waves-dark"><i
-							class="fa fa-qrcode"></i> Tabs & Panels</a></li>
-
-					<li><a href="table.html" class="waves-effect waves-dark"><i
-							class="fa fa-table"></i> Responsive Tables</a></li>
-					<li><a href="form.html" class="waves-effect waves-dark"><i
-							class="fa fa-edit"></i> Forms </a></li>
-					<li><a href="#" class="waves-effect waves-dark"><i
-							class="fa fa-sitemap"></i> Multi-Level Dropdown<span
-							class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li><a href="#">Second Level Link</a></li>
-							<li><a href="#">Second Level Link</a></li>
-							<li><a href="#">Second Level Link<span class="fa arrow"></span></a>
-								<ul class="nav nav-third-level">
-									<li><a href="#">Third Level Link</a></li>
-									<li><a href="#">Third Level Link</a></li>
-									<li><a href="#">Third Level Link</a></li>
-
-								</ul></li>
-						</ul></li>
-					<li><a href="empty.html" class="waves-effect waves-dark"><i
-							class="fa fa-fw fa-file"></i> Empty Page</a></li>
-					<li><a class="active-menu waves-effect waves-dark"
-						href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-					<li><a href="ui-elements.html" class="waves-effect waves-dark"><i
-							class="fa fa-desktop"></i> UI Elements</a></li>
-					<li><a href="chart.html" class="waves-effect waves-dark"><i
-							class="fa fa-bar-chart-o"></i> Charts</a></li>
-					<li><a href="tab-panel.html" class="waves-effect waves-dark"><i
-							class="fa fa-qrcode"></i> Tabs & Panels</a></li>
-
-					<li><a href="table.html" class="waves-effect waves-dark"><i
-							class="fa fa-table"></i> Responsive Tables</a></li>
-					<li><a href="form.html" class="waves-effect waves-dark"><i
-							class="fa fa-edit"></i> Forms </a></li>
-					<li><a href="#" class="waves-effect waves-dark"><i
-							class="fa fa-sitemap"></i> Multi-Level Dropdown<span
-							class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li><a href="#">Second Level Link</a></li>
-							<li><a href="#">Second Level Link</a></li>
-							<li><a href="#">Second Level Link<span class="fa arrow"></span></a>
-								<ul class="nav nav-third-level">
-									<li><a href="#">Third Level Link</a></li>
-									<li><a href="#">Third Level Link</a></li>
-									<li><a href="#">Third Level Link</a></li>
-
-								</ul></li>
-						</ul></li>
-					<li><a href="empty.html" class="waves-effect waves-dark"><i
-							class="fa fa-fw fa-file"></i> Empty Page</a></li>
-				</ul>
-			</div>
-		</nav>
-		<div id="page-wrapper">
-			
-			<div id="page-inner"  style="margin: 0px;padding: 0px;width: 100%;height: 100%">
-				<iframe src="http://www.baidu.com" style="width: 100%;height: 1200px" scrolling="auto"></iframe>				
-			</div>
-			<!-- /. PAGE INNER  -->
-		</div>
-		<!-- /. PAGE WRAPPER  -->
-	</div>
+    <div id="mapCon">
+        <img id="emap" src="${rc.contextPath}/resource/Imgs/map.png" usemap="#dMap" />
+        <map name="dMap">
+            <area class="bld" id="一号楼" data_flag="1" shape="poly" coords="308,133,280,163,333,195,413,219,430,180,372,162"
+                href="#" />
+            <area class="bld" id="二号楼" data_flag="2" shape="poly" coords="448,186,431,221,505,236,592,246,604,218"
+                href="#" />
+            <area class="bld" id="三号楼" data_flag="3" shape="poly" coords="619,210,620,248,833,220,826,189"
+                href="#" />
+            <area class="bld" id="四号楼" data_flag="4" shape="poly" coords="855,174,971,130,980,165,870,206"
+                href="#" />
+            <area class="bld" id="六号楼" data_flag="6" shape="poly" coords="386,296,373,323,524,357,527,338"
+                href="#" />
+            <area class="bld" id="五号楼" data_flag="5" shape="poly" coords="749,329,750,357,908,320,895,296"
+                href="#" />
+        </map>
+    </div>
+    <div id="fixCt">
+        <a href="#" id="fixCt_bldsTog">
+            <img src="${rc.contextPath}/resource/Imgs/tog.png" /></a> <a href="#" class="zoom" id="fixCt_bldsZoom">
+            <img src="${rc.contextPath}/resource/Imgs/zoom.png" /></a> <a href="#" id="fixCt_cyTog">
+            <img src="${rc.contextPath}/resource/Imgs/tog.png" /></a> <a href="#" class="zoom" id="fixCt_cyZoom">
+            <img src="${rc.contextPath}/resource/Imgs/zoom.png" /></a>
+        <div id="fixCt_blds" class="fixCt">
+        </div>
+        <div id="fixCt_cy" class="fixCt">
+        </div>
+    </div>
+    <div id="container" style="display: nono">
+        <div id="paged">
+            <a id="ner" href="#" class="page">总</a><a id="ner1" href="#" class="page">年</a> <a id="ner2" href="#" class="page">月</a>
+            <a id="ner3" href="#" class="page">周</a> <a id="ner4" href="#" class="page">日</a>
+        </div>
+        <a href="#">
+            <div id="ct_close">
+            </div>
+        </a>
+        <div id="chartContainer" class="same">
+        </div>
+        <div id="chartContainer1" class="same">
+        </div>
+        <div id="chartContainer2" class="same">
+        </div>
+        <div id="chartContainer3" class="same">
+        </div>
+        <div id="chartContainer4" class="same">
+        </div>
+        <div id="chartContainer_small"  ></div>      
+        <div id="chartContainerRight" class="sameRight"></div>
+        <div id="chartContainer1Right" class="sameRight" ></div>
+         <div id="chartContainer2Right" class="sameRight" ></div>
+         <div id="chartContainer3Right" class="sameRight"></div>
+         <div id="chartContainer4Right" class="sameRight"></div>    
+    </div>
+    <div id="ct_hover">
+    </div>
+            </div>
+        </div>      
+    </div>
+    </form>
 </body>
+<script src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/5.0.7/highcharts.js"></script>
+<!-- <script src="${rc.contextPath}/statics/libs/jquery.min.js"></script>
+<script src="${rc.contextPath}/resource/js/highcharts.js"></script> -->
+<script src="${rc.contextPath}/resource/Scripts/Matte.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/resource/Scripts/ClassChart.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/resource/Scripts/generateChart.js"></script>
+<script type="text/javascript">     
+    var scopeBigChart = [];
+    $(document).ready(function () {
+        $("#container").hide();
+        generateChart1(optionBld);
+        generateChart1(optionCy);
+        $('.bld').click(function (e) {
+            var mydate = new Date();
+            var y = mydate.getFullYear();
+            var chart = new ClassChart({
+                data:{
+	                elementname: $(this).attr("data_flag"), //请求展示楼层比列图
+                },
+                width: 800,
+                height: 600,
+                type: 'column',
+                controller : "build",
+                url : serverpath+'/build/buildAll',
+                id: 'chartContainer',
+                title: this.id + y.toString() + "年以来数据统计",
+                option: '总',
+                kinds: ['一号楼', '二号楼', '三号楼', '四号楼', '五号楼', '六号楼'],
+                categories: [y.toString(), (y - 1).toString(), (y - 2).toString(), (y - 3).toString(), (y - 4).toString(), (y - 5).toString(), (y - 6).toString(), (y - 7).toString(), (y - 8).toString(), (y - 9).toString(), (y - 10).toString(), (y - 11).toString()]
+            });
+            $('#container').show();
+            $('#ner').show();
+            $('#chartContainer').data('isExists', true);
+        });
+        $("#ct_close").click(function (e) {
+            e.preventDefault();
+            $('#chartContainer').data("isExists", false);
+            for (var i = 1; i <= 4; i++)
+                $('#chartContainer' + i).data("isExists", false);
+            showd('chartContainer');
+            $("#container").hide();
+            $('.page').hide();
+            $.each(scopeBigChart, function () {
+                //this.destory();
+            });
+        });
+        $("#fixCt_bldsZoom").click(function (e) {
+            e.stopPropagation();
+            $('#container').show();
+            var mydate = new Date();
+            var y = mydate.getFullYear();
+            var chart = new ClassChart({
+            	data:{
+  	                elementname:0, //在此地是无用的
+                },
+             	url : serverpath+'/allBuild/allBuildAll',
+                width: 800,
+                height: 600,
+                controller: "allBuild",
+                type: 'column',
+                id: 'chartContainer',
+                title: '园区' + y.toString() + "年以来数据统计",
+                option: '总',
+                kinds: ['一号楼', '二号楼', '三号楼', '四号楼', '五号楼', '六号楼'],
+                categories: [y.toString(), (y - 1).toString(), (y - 2).toString(), (y - 3).toString(), (y - 4).toString(), (y - 5).toString(), (y - 6).toString(), (y - 7).toString(), (y - 8).toString(), (y - 9).toString(), (y - 10).toString(), (y - 11).toString()]
+            });
+            $('#ner').show();
+            $('#chartContainer').data('isExists', true);
+        });
+        $("#fixCt_cyZoom").click(function (e) {
+            e.stopPropagation();
+            $('#container').show();
+            var mydate = new Date();
+            var y = mydate.getFullYear();
+            var chart = new ClassChart({
+            	 data:{
+ 	                elementname:0, //在此地是无用的
+                 },
+            	url : serverpath+'/system/systemAll',
+                width: 800,
+                height: 600,
+                controller: "system",
+                type: 'column',
+                id: 'chartContainer',
+                title: '园区' + y.toString() + "年以来数据统计",
+                option: '总',
+                kinds: ['照明插座', '空调', '变压器', '机房', '其他'],
+                categories: [y.toString(), (y - 1).toString(), (y - 2).toString(), (y - 3).toString(), (y - 4).toString(), (y - 5).toString(), (y - 6).toString(), (y - 7).toString(), (y - 8).toString(), (y - 9).toString(), (y - 10).toString(), (y - 11).toString()]
+            });
+            $('#ner').show();
+            $('#chartContainer').data('isExists', true);
+        });
 
-<!-- jQuery Js -->
-<script src="${assets}/js/jquery-1.10.2.js"></script>
-
-<!-- Bootstrap Js -->
-<script src="${assets}/js/bootstrap.min.js"></script>
-
-<script src="${assets}/materialize/js/materialize.min.js"></script>
-
-<!-- Metis Menu Js -->
-<script src="${assets}/js/jquery.metisMenu.js"></script>
-<!-- Morris Chart Js -->
-<script src="${assets}/js/morris/raphael-2.1.0.min.js"></script>
-<script src="${assets}/js/morris/morris.js"></script>
 
 
-<script src="${assets}/js/easypiechart.js"></script>
-<script src="${assets}/js/easypiechart-data.js"></script>
-
-<script src="${assets}/js/Lightweight-Chart/jquery.chart.js"></script>
-
-<!-- Custom Js -->
-<script src="${assets}/js/custom-scripts.js"></script>
-<!-- 
-	<script type="text/javascript" src="${js}/jquery/jquery-3.1.1.js"></script>
-	<script type="text/javascript" src="${js}/cui/cui.js"></script>
- 	-->
+        $("#fixCt_bldsTog").click(function (e) {
+            e.preventDefault();
+            if (optionBld.type == "pie") {
+                optionBld.type = 'column';
+                generateChart1(optionBld)
+            }
+            else {
+                optionBld.type = "pie";
+                generateChart1(optionBld);
+            }
+        });
+        $('.page').click(function (e) {
+            e.preventDefault();
+            if ($('#chartContai' + this.id).data("isExists") === true) {
+                showd('chartContai' + this.id);
+            }
+        })
+        $("#fixCt_cyTog").click(function (e) {
+            e.preventDefault();
+            if (optionCy.type == "pie") {
+                optionCy.type = 'column';
+                generateChart1(optionCy);
+            }
+            else {
+                optionCy.type = "pie";
+                generateChart1(optionCy);
+            }
+        });
+    });
+    </script>
 </html>

@@ -14,12 +14,25 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
 	<context:component-scan base-package="com.myproject.aspect"></context:component-scan>
-	<context:component-scan base-package="com.project.service.imp"></context:component-scan>
-	<context:component-scan base-package="com.myproject.dao.imp"></context:component-scan>
+	<context:component-scan base-package="com.project.service.impl"></context:component-scan>
+	<context:component-scan base-package="com.project.dao"></context:component-scan>
+	<context:component-scan base-package="com.project.exception.customer"></context:component-scan>
 	<!-- 配置静态 工厂方法
 	<bean class="com.myproject.util.log.MongoUtile" factory-method="getConection">
 		<qualifier value="mongodatabase"></qualifier>
 	</bean> -->
+	
+	<!-- aplicationContext内容 -->
+	<bean class="com.project.util.system.SpringContextUtils"></bean>	
+	<bean class="com.project.sys.task.TestTask" id="testTask"></bean>
+	
+	<bean id="cataloguePointNo" class="com.project.util.customer.CataloguePointNo"></bean>
+	<bean id="buildPointNo" class="com.project.util.customer.BuildPointNo"></bean>
+	
+	<!-- 配置缓存工具类 -->
+	<bean id="cacheUtile" class="com.project.ehcache.CustomerCacheUtil">
+		<constructor-arg  value="shiro-ehcache.xml"></constructor-arg>
+	</bean>
 	
 	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
 		<property name="locations">
@@ -31,15 +44,42 @@
 	</bean>
 	
 	<!-- 数据源配置 -->
-	<bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="user" value="${mysql.jdbc.user}"></property>
-		<property name="password" value="${mysql.jdbc.password}"></property>
-		<property name="driverClass" value="${mysql.jdbc.classdriver}"></property>
-		<property name="jdbcUrl" value="${mysql.jdbc.url}"></property>
-		<property name="maxPoolSize" value="${mysql.jdbc.maxPoolSize}"></property>
-		<property name="minPoolSize" value="${mysql.jdbc.minPoolSize}"></property>
-		<property name="initialPoolSize" value="${mysql.jdbc.initialPoolSize}"></property> 
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="1000" />
+		<property name="logSlowSql" value="true" />
+		<property name="mergeSql" value="true" />
 	</bean>
+
+	<!-- 数据源配置  远程数据库的配置-->
+	<bean id="datasource1" class="com.alibaba.druid.pool.DruidDataSource">
+	<!-- 自动识别 jdbc驱动类 -->
+		<property name="url" value="${remote.jdbc.url}"></property>
+		<property name="username" value="${remote.jdbc.user}"></property>
+		<property name="password" value="${remote.jdbc.password}"></property>
+		<property name="initialSize" value="${remote.jdbc.minPoolSize}"></property>
+		<property name="maxActive" value="${remote.jdbc.maxPoolSize}"></property>
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 业务数据库的配置 -->
+	<bean id="datasource" class="com.alibaba.druid.pool.DruidDataSource">
+	<!-- 自动识别 jdbc驱动类 -->
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.user}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="initialSize" value="${jdbc.minPoolSize}"></property>
+		<property name="maxActive" value="${jdbc.maxPoolSize}"></property>
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="datasource"></property>
 		<property name="configLocation" value="classpath:mybatis-config.xml" ></property>
@@ -50,25 +90,42 @@
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
 	
-	<!-- 定义事务 -->
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="datasource"></property>
-	</bean>
-	<!-- 通知 -->
-	 <tx:advice id="txAdvice" transaction-manager="transactionManager">
-	 	<tx:attributes>
-	 		<tx:method name="save*" propagation="REQUIRED"/>
-	 		<tx:method name="insert*" propagation="REQUIRED"/>
-	 		<tx:method name="update*" propagation="REQUIRED"/>
-	 		<tx:method name="delete*" propagation="REQUIRED"/>
-	 		<tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
-	 		<tx:method name="select*" propagation="SUPPORTS" read-only="true"/>
-	 		<tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
-	 	</tx:attributes>
-	 </tx:advice>
-	 
-	 <aop:config>
-	 	<aop:advisor advice-ref="txAdvice"
-	 				 pointcut="execution(* cn.itcast.ssm.service.impl.*.*(..))"/>
-	 </aop:config>
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="dataSource" ref="datasource" />
+        <property name="quartzProperties">
+            <props>
+                <prop key="org.quartz.scheduler.instanceName">RenrenScheduler</prop>
+                <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+                <!-- 线程池配置 -->
+                <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+                <prop key="org.quartz.threadPool.threadCount">20</prop>
+                <prop key="org.quartz.threadPool.threadPriority">5</prop>
+                <!-- JobStore 配置 -->
+                <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+                <!-- 集群配置 -->
+                <prop key="org.quartz.jobStore.isClustered">true</prop>
+                <prop key="org.quartz.jobStore.clusterCheckinInterval">15000</prop>
+                <prop key="org.quartz.jobStore.maxMisfiresToHandleAtATime">1</prop>
+                
+                <prop key="org.quartz.jobStore.misfireThreshold">12000</prop>
+				<!-- 表前缀 -->
+                <prop key="org.quartz.jobStore.tablePrefix">QRTZ_</prop>
+            </props>
+        </property>
+
+        <property name="schedulerName" value="RenrenScheduler" />
+
+        <!--延时启动 -->
+        <property name="startupDelay" value="30" />
+
+        <property name="applicationContextSchedulerContextKey" value="applicationContextKey" />
+
+        <!--可选，QuartzScheduler 启动时更新己存在的Job，这样就不用每次修改targetObject后删除qrtz_job_details表对应记录了 -->
+        <property name="overwriteExistingJobs" value="true" />
+
+        <!-- 设置自动启动   默认为true -->
+        <property name="autoStartup" value="true" />
+
+    </bean>
+    
 </beans>

@@ -1,9 +1,10 @@
 package com.project.mapper;
 
-import com.project.entity.TbRoleRight;
-import com.project.entity.TbRoleRightExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import com.project.entity.TbRoleRight;
+import com.project.entity.TbRoleRightExample;
 
 public interface TbRoleRightMapper {
     int countByExample(TbRoleRightExample example);

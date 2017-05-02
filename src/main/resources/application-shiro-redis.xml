@@ -1,47 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<context:property-placeholder location="classpath:datasource.properties"/>
 
 	<!-- redis配置  以后的数据用配置文件来配置-->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<!-- 最大连接数  -->
 		<property name="maxTotal" value="10"></property>
 	</bean>
+     <!-- 用来存放session的 -->
+	<bean id="jedisPoolsession" class="com.project.security.shiro.CustomJedisPool">
 	<!-- (final GenericObjectPoolConfig poolConfig, final String host, int port,
       int timeout, final String password) -->
-	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
 		<constructor-arg index="0" ref="jedisPoolConfig"></constructor-arg>
-		<constructor-arg index="1" value="127.0.0.1"  name="host" type="java.lang.String"></constructor-arg>
-		<constructor-arg index="2" value="6379" name="port" type="int"></constructor-arg>
+		<constructor-arg index="1" value="${redis.dome}"  name="host" type="java.lang.String"></constructor-arg>
+		<constructor-arg index="2" value="${redis.port}" name="port" type="int"></constructor-arg>
 		<!-- 采用默认值 
 		<constructor-arg index="3" value="2000"></constructor-arg>-->
 		<!-- 设置密码 
 		<constructor-arg index="4" value=""></constructor-arg>-->
+		<constructor-arg index="3" value="${redis.session.database}" name="database" type="int"></constructor-arg>
 	</bean>
 	
-	<!-- 以后改为分布式时，用redisSessionDao来代替  -->
+	<!-- 缓存用户的的redis-->
+	<bean id="jedisPoolCache" class="com.project.security.shiro.CustomJedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig"></constructor-arg>
+		<constructor-arg index="1" value="${redis.dome}"  name="host" type="java.lang.String"></constructor-arg>
+		<constructor-arg index="2" value="${redis.port}" name="port" type="int"></constructor-arg>
+		<!-- 采用默认值 
+		<constructor-arg index="3" value="2000"></constructor-arg>-->
+		<!-- 设置密码 
+		<constructor-arg index="4" value=""></constructor-arg>-->
+		<constructor-arg index="3" value="${redis.cache.database}" name="database" type="int"></constructor-arg>
+	</bean>
+
+
+	<!-- redisManager -->
+	<bean id="sessionRedisManager" class="com.project.security.shiro.RedisManager">
+		<property name="expire" value="${session.expireTime}"></property>
+		<property name="jedisPool" ref="jedisPoolsession"></property>
+	</bean>
+	<!--分布式时，redisSessionDao来代替  -->
 	<bean id="sessionDao" class="com.project.security.shiro.SessionRedisDao">
+		<property name="redisManager" ref="sessionRedisManager"></property>
 		<property name="sessionIdGenerator">
 			<bean class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"></bean>
 		</property>
 	</bean> 
-	
 	<!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <!-- session的失效时长，单位毫秒 -->
-        <property name="globalSessionTimeout" value="6000"/>
+        <property name="globalSessionTimeout" value="3600000"/>
         <!-- 删除失效的session -->
         <property name="deleteInvalidSessions" value="true"/>
 		<!-- 配置sessionDao session持久化方法      -->  
         <property name="sessionDAO" ref="sessionDao"></property> 
     </bean>
-	
-	<!-- 缓存管理器 -->
-	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-    	<!-- 配置缓存位置 -->
-    	<property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"/>
+
+    <!-- redis缓存 -->
+    <bean id="cacheRedisManager" class="com.project.security.shiro.RedisManager">
+    	<property name="expire" value="${cache.expireTime}"></property>
+    	<property name="jedisPool" ref="jedisPoolCache"></property>
     </bean>
+	<bean  id="cacheManager" class="com.project.security.shiro.RedisCacheManager">
+		<property name="redisManager" ref="cacheRedisManager"></property>
+	</bean>
 	
 	<!-- 凭证匹配器 -->
 	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
@@ -49,6 +76,13 @@
 		<property name="hashIterations" value="2" />
 	</bean>
 	<bean id="realm" class="com.project.security.shiro.CustomRealm">
+	
+		<property name="cachingEnabled" value="true"></property>
+		<!-- 是否启用用户认证授权 -->
+		<property name="authenticationCachingEnabled" value="false"></property>
+		
+		<property name="authorizationCachingEnabled" value="true"></property>
+		
 		<property name="credentialsMatcher" ref="credentialsMatcher"></property>
 	</bean>
 	
@@ -69,7 +103,7 @@
 		<!-- 未授权url -->
 		<property name="unauthorizedUrl" value="/unauthorized.html"></property>
 		<!-- 登录成功 -->
-		<property name="successUrl" value="/project/index"></property>
+		<property name="successUrl" value="/project/index.html"></property>
 		<property name="filterChainDefinitions">
 			<value>
 				/logout = logout

@@ -1,98 +1,97 @@
 package com.project.security.shiro;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.ValidatingSession;
-import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-
-public class SessionRedisDao extends EnterpriseCacheSessionDAO {
+public class SessionRedisDao extends AbstractSessionDAO {
 	
-	@Autowired
-	private JedisPool jedisPoll;
+	private static Logger logger = LoggerFactory.getLogger(SessionRedisDao.class);
 	
-	@Override
-	protected Serializable doCreate(Session session) {
-		Serializable sessionId = super.doCreate(session);
-		Jedis resource = jedisPoll.getResource();
-		resource.set(sessionId.toString().getBytes(), sessionToByte(session));
-		resource.close();
-        return sessionId;
+	private RedisManager redisManager;
+	
+	private String keyPrefix = "project_shiro_session_";
+	
+    
+    /**
+	 * 获得byte[]型的key
+	 * @param key
+	 * @return
+	 */
+	private byte[] getByteKey(Serializable sessionId){
+		String preKey = this.keyPrefix + sessionId;
+		return preKey.getBytes();
 	}
-	
-	  // 获取session
-    @Override
-    protected Session doReadSession(Serializable sessionId) {
-        // 先从缓存中获取session，如果没有再去数据库中获取
-        Session session = super.doReadSession(sessionId); 
-        if(session == null){
-        	Jedis resource = jedisPoll.getResource();
-            byte[] bytes = resource.get(sessionId.toString().getBytes());
-            if(bytes != null && bytes.length > 0){
-                session = byteToSession(bytes);    
-            }
-            resource.close();
-        }
-        return session;
-    }
 
-    // 更新session的最后一次访问时间
-    @Override
-    protected void doUpdate(Session session) {
+	public RedisManager getRedisManager() {
+		return redisManager;
+	}
+
+	public void setRedisManager(RedisManager redisManager) {
+		this.redisManager = redisManager;
+	}
+
+	public String getKeyPrefix() {
+		return keyPrefix;
+	}
+
+	public void setKeyPrefix(String keyPrefix) {
+		this.keyPrefix = keyPrefix;
+	}
+
+	@Override
+	public void update(Session session) throws UnknownSessionException {
+		logger.debug("更新session.....................");
     	if(session instanceof ValidatingSession && !((ValidatingSession)session).isValid()) {  
             return; //如果会话过期/停止 没必要再更新了  
         }  
-    	Jedis resource = jedisPoll.getResource();
-    	resource.set(session.getId().toString().getBytes(), sessionToByte(session));
-    	resource.close();
-    }
-
-    // 删除session
-    @Override
-    protected void doDelete(Session session) {
-        super.doDelete(session);
-        Jedis resource = jedisPoll.getResource();
-        resource.del(session.getId().toString().getBytes());
-        resource.close();
-    }
-	
-	// 把session对象转化为byte保存到redis中
-    public byte[] sessionToByte(Session session){
-        ByteArrayOutputStream bo = new ByteArrayOutputStream();
-        byte[] bytes = null;
-        try {
-            ObjectOutputStream oo = new ObjectOutputStream(bo);
-            oo.writeObject(session);
-            bytes = bo.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bytes;
-    }
+    	Object sessionId = session.getId();
+		redisManager.set(this.getByteKey(sessionId .toString()), SerializeUtils.serialize(session));
     
-    // 把byte还原为session
-    public Session byteToSession(byte[] bytes){
-        ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
-        ObjectInputStream in;
-        Session session = null;
-        try {
-            in = new ObjectInputStream(bi);
-            session = (Session) in.readObject();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return session;
-    }
+		
+	}
+
+	@Override
+	public void delete(Session session) {
+		logger.debug("删除session.....................");
+    	if(session == null || session.getId() == null){
+			logger.error("session or session id is null");
+			return;
+		}
+		redisManager.del(this.getByteKey(session.getId()));
+		
+	}
+
+	@Override
+	public Collection<Session> getActiveSessions() {
+		List<Session> values = redisManager.values("*");
+		return values;
+	}
+
+	@Override
+	protected Serializable doCreate(Session session) {
+		logger.debug("生成session.....................");
+		Serializable sessionId = this.generateSessionId(session);
+		this.assignSessionId(session, sessionId);
+		redisManager.set(getByteKey(sessionId.toString()), SerializeUtils.serialize(session));
+        return sessionId;
+	}
+
+	@Override
+	protected Session doReadSession(Serializable sessionId) {
+		logger.debug("读session.....................");
+    	if(sessionId == null){
+    		return null;
+    	}
+    	Session s = (Session)SerializeUtils.deserialize(redisManager.get(this.getByteKey(sessionId)));
+    	return s;
+	}
 	
 }

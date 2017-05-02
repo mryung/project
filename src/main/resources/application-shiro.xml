@@ -33,7 +33,7 @@
 		<!-- 未授权url -->
 		<property name="unauthorizedUrl" value="/unauthorized.html"></property>
 		<!-- 登录成功 -->
-		<property name="successUrl" value="/project/index"></property>
+		<property name="successUrl" value="/project/index.html"></property>
 		<property name="filterChainDefinitions">
 			<value>
 				/logout = logout

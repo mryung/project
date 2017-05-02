@@ -24,15 +24,16 @@
 	select tb_right.*,0 as ischecked  from tb_user_role,tb_role,tb_role_right,tb_right
 		where tb_user_role.user_id = #{userid,jdbcType=INTEGER} and tb_role.available = 1  and tb_user_role.role_id
 		= tb_role.role_id and tb_role.role_id = tb_role_right.role_id 
-		and tb_role_right.right_id = tb_right.right_id and tb_right.available = 1  and tb_right.deleted = 0
+		and tb_role_right.right_id = tb_right.right_id and tb_right.available = 1
+		  and tb_right.deleted = 0
   </select>
   <select id="selectAllRight" parameterType="string" resultMap="BaseResultMap">
-  	select tb_right.*,0 as ischecked from tb_right where tb_right.right_id in (${_parameter})
+  	select tb_right.*,0 as ischecked from tb_right where tb_right.right_id in (${_parameter}) and tb_right.deleted = 0
   </select>
   
   <select id="selectRightByUser" parameterType="int" resultMap="BaseResultMap">
   	select tb_right.*,0 as ischecked from tb_right,tb_user_right where 
-  	tb_right.right_id = tb_user_right.right_id and tb_user_right.user_id = #{userId}
+  	tb_right.right_id = tb_user_right.right_id and tb_user_right.user_id = #{userId} and tb_right.deleted = 0
   </select>
   
 	<delete id="deleteUserRights"  parameterType="int">

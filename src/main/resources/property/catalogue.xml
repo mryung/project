@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <照明插座>
+      <Point No="111" Description="A区一至五层照明" />
+      <Point No="112" Description="A区六至十层照明" />
+      <Point No="113" Description="A区十一层设备层照明" />
+      <Point No="110" Description="B区十一设备照明" />
+      <Point No="128" Description="B区一至五层照明" />
+      <Point No="129" Description="B区六至十层照明" />
+      <Point No="131" Description="B区立面照明" />
+      <Point No="209" Description="C区六至十层照明" />
+      <Point No="211" Description="C区十一层照明" />
+      <Point No="212" Description="C区一至五层照明" />
+      <Point No="230" Description="C区立面照明" />
+      <Point No="207" Description="D区十一层设备层照明" />
+      <Point No="208" Description="D区一至五层照明" />
+      <Point No="213" Description="D区六至十层照明" />
+      <Point No="130" Description="E区一至三层照明" />
+      <Point No="135" Description="E区四至六层照明" />
+      <Point No="136" Description="E区七至八层照明" />
+      <Point No="232" Description="F区四至六层设备照明" />
+      <Point No="233" Description="F区七至八层设备照明" />
+      <Point No="235" Description="F区一至三层照明" />
+      <Point No="119" Description="地下室保障照明1" />
+      <Point No="121" Description="地下室保障照明5" />
+      <Point No="195" Description="高压柜照明" />
+      <Point No="217" Description="地下室保障照明五" />
+      <Point No="218" Description="地下室保障照明三" />
+      <Point No="219" Description="地下室保障照明四" />
+  </照明插座>
+  <空调>
+      <Point No="1" Description="进线自能断路器" />
+      <Point No="116" Description="AB区新风机组分机盘管" />
+      <Point No="117" Description="E区新风机组风机盘管" />
+      <Point No="214" Description="C、D区新风机组盘管" />
+      <Point No="215" Description="F区新风机组盘管" />
+  </空调>  
+  <变压器>
+    <Point No="248" Description="一号变压器" />
+    <Point No="249" Description="二号变压器" />
+    <Point No="250" Description="三号变压器" />
+    <Point No="251" Description="四号变压器" />   
+    <Point No="254" Description="五号变压器" />    
+  </变压器>
+  <机房>
+    <Point No="109" Description="信息办空调" />
+    <Point No="115" Description="E区4FUPS电源" />
+    <Point No="133" Description="A.B.E区弱电井电源" />
+    <Point No="134" Description="中央机房UPS电源" />
+    <Point No="206" Description="信息办UPS-辅楼E区1F-" />
+    <Point No="220" Description="2楼10层夹层弱电" />
+    <Point No="231" Description="CDF弱电井电源" />
+  </机房>
+  <其他>
+      <Point No="101" Description="A区消防电梯动力一电" />
+      <Point No="103" Description="B区消防电梯动力一电" />
+      <Point No="124" Description="A区普通电梯" />
+  
+      <Point No="141" Description="A区消防电梯动力二电" />
+      <Point No="142" Description="B区消防电梯动力二电" />
+      <Point No="196" Description="C区消防电梯动力一电" />
+      <Point No="197" Description="D区消防电梯动力一电" />
+      <Point No="223" Description="E、F普通电梯" />
+      <Point No="224" Description="D区普通电梯" />
+      <Point No="238" Description="D区消防电梯动力二电" />
+      <Point No="97" Description="A区屋面正压风机动力一电" />
+      <Point No="98" Description="B区屋面正压风机动力一电" />
+      <Point No="99" Description="地下室排烟风机一动力一电" />
+      <Point No="100" Description="地下室排烟分级四动力一电" />
+      <Point No="105" Description="水泵房消防负荷动力一电" />
+      <Point No="122" Description="水泵房（地下室排风机1）" />
+      <Point No="123" Description="地下室排风机5" />
+      <Point No="137" Description="水泵房消防负荷动力二电" />
+      <Point No="139" Description="地下室排烟风机一动力二电" />
+      <Point No="140" Description="地下室排烟风机四动力二电" />
+      <Point No="143" Description="A区屋面正压风机动力二电" />
+      <Point No="145" Description="B区屋面正压风机动力二电" />
+      <Point No="199" Description="C区屋面正压风机动力一电" />
+      <Point No="200" Description="D区屋面正压风机动力一电" />
+      <Point No="201" Description="地下室排烟机二动力一电" />
+      <Point No="202" Description="地下室排烟风机三动力一电" />
+      <Point No="225" Description="地下室排风三" />
+      <Point No="226" Description="地下室排风四" />
+      <Point No="236" Description="F区一层正压风机动力二电" />
+      <Point No="237" Description="D区屋面排风机" />
+      <Point No="239" Description="C区屋面正压风机动力二电" />
+      <Point No="241" Description="D区屋面正压风机动力二电" />
+      <Point No="242" Description="地下室排风机二动力二电" />
+      <Point No="243" Description="地下室排风机三动力二电" />
+      <Point No="104" Description="联通" />
+      <Point No="118" Description="备用（到5号楼会议室动一）" />
+      <Point No="146" Description="备用(监控柜电源）" />
+      <Point No="147" Description="5号楼会议室（动二）" />
+      <Point No="194" Description="地下室人防三动力一电" />
+      <Point No="229" Description="备用" />
+      <Point No="245" Description="备用" />
+  </其他> 
+</root>

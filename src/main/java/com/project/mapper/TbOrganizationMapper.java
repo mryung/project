@@ -1,9 +1,10 @@
 package com.project.mapper;
 
-import com.project.entity.TbOrganization;
-import com.project.entity.TbOrganizationExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import com.project.entity.TbOrganization;
+import com.project.entity.TbOrganizationExample;
 
 public interface TbOrganizationMapper {
     int countByExample(TbOrganizationExample example);

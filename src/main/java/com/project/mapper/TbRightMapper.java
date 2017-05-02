@@ -1,9 +1,10 @@
 package com.project.mapper;
 
-import com.project.entity.TbRight;
-import com.project.entity.TbRightExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import com.project.entity.TbRight;
+import com.project.entity.TbRightExample;
 
 public interface TbRightMapper {
     int countByExample(TbRightExample example);

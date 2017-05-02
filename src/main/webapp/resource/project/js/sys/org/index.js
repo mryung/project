@@ -164,7 +164,7 @@ function openWindow(orgId) {
 	$.ligerDialog.open({
 		url : url,
 		width : 500,
-		height : 350,
+		height : 450,
 		name : "iFrame",
 		title : title,
 		buttons : [ {

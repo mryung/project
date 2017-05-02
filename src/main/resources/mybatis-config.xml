@@ -2,6 +2,9 @@
 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" /> 
+	</settings>
 	<!-- 添加控件分页信息 -->
 	<plugins>
 		<plugin interceptor="com.github.pagehelper.PageHelper">
@@ -28,6 +31,4 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	        <property name="params" value="pageNum=start;pageSize=limit;"/>
 		</plugin>
 	</plugins>
-
-
 </configuration>

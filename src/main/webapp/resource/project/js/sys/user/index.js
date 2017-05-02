@@ -15,10 +15,6 @@ $(function() {
 			click : editUserWindow
 		}, {
 			line : true
-		},{
-			text : '查询8',
-			icon : 'search',
-			click : editUserWindow
 		}, {
 			line : true
 		}, {
