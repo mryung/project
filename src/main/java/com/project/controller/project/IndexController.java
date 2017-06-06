@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.myproject.message.R;
 import com.project.entity.project.StartEndTime;
+import com.project.security.shiro.SessionUtil;
 import com.project.util.customer.DateUtile;
 
 
@@ -28,7 +29,10 @@ import com.project.util.customer.DateUtile;
 public class IndexController {
 	
 	@RequestMapping("/index.html")
-	public String index(){
+	public String index(Map<String,Object> map){
+		
+		//用户名和传到前台
+		map.put("username", SessionUtil.getUsername());
 		return "index";
 	}
 	

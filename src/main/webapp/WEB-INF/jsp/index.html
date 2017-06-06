@@ -16,7 +16,11 @@
             		<td align="left">
 			            <ul style="float:left;">
 			                <li class="firstli"><a href="Default.aspx">系统首页</a></li>
-			                <li class="firstli"><a href="${rc.contextPath}/frame/index">后台管理</a></li>
+			                <@shiro.hasRole name="sys:admin">
+			                	<li class="firstli"><a href="${rc.contextPath}/frame/index">后台管理</a></li>
+			                </@shiro.hasRole>
+			                <li class="firstli"><a href="${rc.contextPath}/sys/user/updatePassword">密码修改</a></li>
+			                <li class="firstli">用户:${username}</li>
 			            </ul>
 			        </td>
             	<td align="right" valign="middle" style="padding-top:10px;">

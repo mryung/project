@@ -32,19 +32,36 @@
 		<property name="requestContextAttribute" value="rc"></property>
 	</bean>
 	<bean id="freemarkerConfig"
-        class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        class="com.project.security.shiro.ShiroTagFreeMarkerConfigurer">
         <property name="templateLoaderPath" value="${prefix}"></property>
       	<property name="defaultEncoding" value="${defaultEncoding}"></property>
+      	<!-- 	
+      	<property name="freemarkerVariables">
+			<map>
+				<entry key="xml_escape" value-ref="fmXmlEscape" />
+				<entry key="api" value-ref="api"/>
+			</map>
+		</property>
+		 -->
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">0</prop>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="url_escaping_charset">UTF-8</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="boolean_format">true,false</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="time_format">HH:mm:ss</prop>
+<!--			<prop key="number_format">0.######</prop>-->
+				<prop key="number_format">#</prop>
+				<prop key="whitespace_stripping">true</prop>
+			</props>
+		</property>
     </bean>
 	
 	<!-- 配置 类型转化器 -->
-	<mvc:annotation-driven>
-      <!--   <mvc:message-converters>
-            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-                <property name="objectMapper" ref="customObjectMapper"></property>
-            </bean>
-        </mvc:message-converters> -->
-    </mvc:annotation-driven>
+	<mvc:annotation-driven></mvc:annotation-driven>
     <bean id="customObjectMapper" class="com.myproject.util.CustomObjectMapper"></bean>  
 	<!-- 定义静态资源处理文件 -->
 	<mvc:default-servlet-handler/>

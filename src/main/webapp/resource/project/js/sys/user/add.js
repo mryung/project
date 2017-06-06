@@ -168,8 +168,8 @@ function submit() {
 	$("#roles").val(getRoles());
 	$("#rights").val(getRights());
 	
-	alert($("#roles").val());
-	alert($("#rights").val());
+//	alert($("#roles").val());
+//	alert($("#rights").val());
 	var url = serverpath + "/sys/user/save";
 	var waitManager = $.ligerDialog.waitting('正在保存,请稍候.......');
 	$.ajax({
@@ -181,13 +181,13 @@ function submit() {
 			var msg = data;
 			waitManager.close();
 			$.ligerDialog.alert(msg.msg);
-			if(msg.code=="0"){
-				if (data.usrId != null) {
-					userId = userId;
-					loadData();
-				}
+			if(msg.code=="1"){
+//				if (data.usrId != null) {
+//					userId = userId;
+//					loadData();
+//				}
+				parent.refreshGrid();
 			}
-			parent.refreshGrid();
 		},
 		error : function() {
 			$.ligerDialog.error('保存失败!');

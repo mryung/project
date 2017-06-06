@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,7 +52,13 @@ public class UserController extends BasicController{
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public Map<String,Object> add(TbUser user,String roles,String rights,HttpServletRequest request){
 		user.setLoginIp(CusAccessObjectUtil.getIpAddress(request));
-		userService.addUser(user,roles,rights);
+		Integer flag = userService.addUser(user,roles,rights);
+		
+		//表示用户已存在
+		if(flag == 0){
+			return R.error("邮箱或电话已存在");
+		}
+		
 		return R.ok("添加成功").put("userId", 1);
 	}
 	
@@ -103,5 +110,20 @@ public class UserController extends BasicController{
 	public Map<String,Object> deleteUser(@PathVariable("userid") Integer userid){
 		int flag = userService.deleteUser(userid);
 		return R.ok("删除成功");
+	}
+	
+	//控制用户修改密码
+	@RequestMapping(value="/updatePassword")
+	public String updatePassword(){
+		
+		return "sys/user/updatePassword";
+	}
+	
+	//控制用户修改密码
+	@ResponseBody
+	@RequestMapping(value="/updatePassword",method=RequestMethod.POST)
+	public Map<String,Object> updatePassword(Map<String,Object> map,String oldpassword,String newpassword){
+		R r = new R();
+		return userService.updateUserPassword(r,oldpassword,newpassword);
 	}
 }

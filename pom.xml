@@ -19,20 +19,6 @@
 		</dependencies>
 	</dependencyManagement>
   <dependencies>
-  
-  <!-- https://mvnrepository.com/artifact/org.bytedeco/javacv -->
-<dependency>
-    <groupId>org.bytedeco</groupId>
-    <artifactId>javacv</artifactId>
-    <version>0.11</version>
-</dependency>
-  <!-- https://mvnrepository.com/artifact/org.bytedeco/javacpp -->
-<dependency>
-    <groupId>org.bytedeco</groupId>
-    <artifactId>javacpp</artifactId>
-    <version>0.11</version>
-</dependency>
-  	
   	<dependency>
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
@@ -249,6 +235,12 @@
 	    <groupId>redis.clients</groupId>
 	    <artifactId>jedis</artifactId>
 	    <version>2.9.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/net.mingsoft/shiro-freemarker-tags -->
+	<dependency>
+	    <groupId>net.mingsoft</groupId>
+	    <artifactId>shiro-freemarker-tags</artifactId>
+	    <version>0.1</version>
 	</dependency>
 	
 	

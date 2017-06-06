@@ -1,10 +1,12 @@
 package com.project.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.myproject.message.PageInfo;
 import com.myproject.message.Pageable;
+import com.myproject.message.R;
 import com.project.entity.TbUser;
 import com.project.entity.project.Right;
 import com.project.entity.project.Role;
@@ -27,5 +29,7 @@ public interface UserService {
 	public List<Right> listUserRightTree(Integer userId);
 
 	public int deleteUser(Integer userid);
+
+	public Map<String,Object> updateUserPassword(R r,String oldpassword,String newpassword);
 	
 }

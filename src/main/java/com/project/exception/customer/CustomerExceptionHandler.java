@@ -65,7 +65,7 @@ public class CustomerExceptionHandler implements HandlerExceptionResolver {
 			//打印出错信息
 			ex.printStackTrace();
 			//返回一个错误页面
-			return new ModelAndView("/errror");
+			return new ModelAndView("/error");
 		}
 		
 	}

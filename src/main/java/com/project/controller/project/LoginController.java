@@ -34,7 +34,6 @@ public class LoginController{
 			
 			r =  R.ok("登录成功,即将跳转页面").put("url", formFilter.getSuccessUrl());
 		}else{
-			
 			//如果登陆失败从request中获取认证异常信息，shiroLoginFailure就是shiro异常类的全限定名
 			String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
 			//根据shiro返回的异常类路径判断，抛出指定异常信息

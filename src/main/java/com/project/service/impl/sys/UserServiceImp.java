@@ -5,14 +5,17 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.myproject.message.PageInfo;
 import com.myproject.message.Pageable;
+import com.myproject.message.R;
 import com.myproject.util.PassWordUtil;
 import com.project.entity.TbUser;
 import com.project.entity.TbUserExample;
@@ -28,6 +31,7 @@ import com.project.mapper.TbUserRoleMapper;
 import com.project.mapper.project.UserMapper;
 import com.project.mapper.project.UserRightMapper;
 import com.project.mapper.project.UserRoleMapper;
+import com.project.security.shiro.RedisManager;
 import com.project.security.shiro.SessionUtil;
 import com.project.service.UserService;
 
@@ -53,6 +57,10 @@ public class UserServiceImp implements UserService {
 	@Autowired
 	private UserRoleMapper userRoleDao;
 
+	@Autowired
+	@Qualifier("cacheRedisManager")
+	private RedisManager cacheRedisManger;
+	
 	@Deprecated
 	@Override
 	public PageInfo<TbUser> listUser(int page, int pageSize, Integer orgId) {
@@ -142,8 +150,19 @@ public class UserServiceImp implements UserService {
 			inserRole(user.getUserId(),roleids);
 			inserRight(user.getUserId(),rightids);
 			
-
+			//判断用户是否有效，踢出用户信息删除用户权限 缓存
+			cacheRedisManger.flushDB();
 		} else {
+			//判断用户是否存在了
+			TbUserExample condition = new TbUserExample();
+			Criteria emailCrieria = condition.createCriteria();
+			Criteria phoneCrieria = condition.or();
+			emailCrieria.andEmailEqualTo(user.getEmail());
+			phoneCrieria.andPhoneEqualTo(user.getPhone());
+			List<TbUser> example = userDao.selectByExample(condition);
+			if(example.size() > 0 ){
+				return 0;
+			}
 			// 添加
 			user.setSalt(user.getEmail());
 			user.setNickname(user.getUsername());
@@ -160,7 +179,7 @@ public class UserServiceImp implements UserService {
 			//插入权限
 			inserRight(user.getUserId(),rightids);
 		}
-		return 0;
+		return 1;
 	}
 
 	@Override
@@ -265,6 +284,31 @@ public class UserServiceImp implements UserService {
 		//删除用户本身信息
 		userDao.deleteByPrimaryKey(userid);
 		return 0;
+	}
+
+	@Override
+	public Map<String, Object> updateUserPassword(R r,String oldpassword,String newpassword) {
+		int userid = SessionUtil.getUserid();
+		TbUser user = userDao.selectByPrimaryKey(userid);
+		
+		//加密原来密码比较
+		String sha1password = PassWordUtil.password("SHA1", oldpassword, user.getEmail(), 2);
+		if(oldpassword != null && sha1password.equals(user.getPassword())){
+			
+			//加密新密码
+			 String password = PassWordUtil.password("SHA1", newpassword, user.getEmail(), 2);
+			 user.setPassword(password);
+			 
+			// 更新用户信息
+			userDao.updateByPrimaryKeySelective(user);
+			r.put("msg", "修改成功");
+			r.put("code", 1);
+			r.put("url", "/project/");
+		}else{
+			r.put("msg", "原密码错误");
+			r.put("code", 0);
+		}
+		return r;
 	}
 
 }
